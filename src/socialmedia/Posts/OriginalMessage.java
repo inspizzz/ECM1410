@@ -12,12 +12,10 @@ public class OriginalMessage extends Posts {
     public OriginalMessage(int id, User author, String message) throws InvalidPostException {
         this.uniqueId = id;
         this.author = author;
+        this.message = message;
 
-        if (message.length() < 100) {
-            this.message = message;
-        } else {
-            throw new InvalidPostException("message is too long");
-        }
+        //add the post to the users posts
+        author.addMessage(id, message);
     }
 
     public String getMessage() {

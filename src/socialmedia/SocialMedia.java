@@ -169,6 +169,8 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public String showAccount(String handle) throws HandleNotRecognisedException {
+
+        // check if account with this handle exists
         if (accountHandles.containsKey(handle)) {
 
             // begin by grabbing the user
@@ -176,17 +178,18 @@ public class SocialMedia implements SocialMediaPlatform {
 
             // begin grabbing information
             int id = user.getId();
-
             String description = user.getDescription();
             int postCount = user.getPostCount();
             int endorsementCount = User.getEndorsementCount();
 
+            // return the formatted string
             return String.format(
-                    "ID: %d\n" +
-                            "\t * Handle: %s\n" +
-                            "\t * Description: %s\n" +
-                            "\t * Post count: %d\n" +
-                            "\t * Endorse count: %d", id, handle, description, postCount, endorsementCount
+                    """
+                            ID: %d
+                            \t * Handle: %s
+                            \t * Description: %s
+                            \t * Post count: %d
+                            \t * Endorse count: %d""", id, handle, description, postCount, endorsementCount
             );
 
         } else {
@@ -198,15 +201,28 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
-        // TODO Auto-generated method stub
-        return 0;
+        if (accountHandles.containsKey(handle)) {
+            if (!message.equals("") && message.length() < 100) {
+
+                // create the post for the user
+                OriginalMessage post = new OriginalMessage(accounts.size() + 1, accounts.get(accountHandles.get(handle)), message);
+
+                return post.getUniqueId();
+            } else {
+
+                // invalid message
+                throw new InvalidPostException("this message is invalid");
+            }
+        } else {
+
+            // account handle not recognized
+            throw new HandleNotRecognisedException(String.format("handle: %s not recognized", handle));
+        }
     }
 
     @Override
-    public int endorsePost(String handle, int id)
-            throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
-        // TODO Auto-generated method stub
-        return 0;
+    public int endorsePost(String handle, int id) throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
+
     }
 
     @Override

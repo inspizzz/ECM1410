@@ -22,4 +22,8 @@ public class Posts {
     public HashMap<Integer, Endorsement> getEndorsements() {
         return this.endorsements;
     }
+
+    public int getUniqueId() {
+        return uniqueId;
+    }
 }
