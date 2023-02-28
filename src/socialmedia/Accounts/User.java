@@ -66,8 +66,16 @@ public class User {
         return this.messages;
     }
 
-    public void addComment(int id, OriginalMessage message, String content) {
+    public Comment addComment(int id, OriginalMessage message, String content) {
+
+        // create the new comment
         Comment comment = new Comment(id, message, content, this);
+
+        // add this to the users comments
+        this.comments.add(comment);
+
+        // return the created comment
+        return comment;
     }
 
     public ArrayList<Comment> getComments() {
@@ -80,5 +88,9 @@ public class User {
 
     public ArrayList<Endorsement> getEndorsements() {
         return this.endorsements;
+    }
+
+    public int getPostCount() {
+        return this.messages.size() + this.comments.size() + this.endorsements.size();
     }
 }
