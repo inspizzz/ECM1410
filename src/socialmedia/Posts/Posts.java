@@ -10,6 +10,8 @@ public class Posts {
     protected HashMap<Integer, Comment> comments;
     protected HashMap<Integer, Endorsement> endorsements;
 
+    protected String type;
+
 
     public Posts() {
         System.out.println("created an instance of posts");

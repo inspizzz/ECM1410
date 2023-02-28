@@ -13,6 +13,7 @@ public class OriginalMessage extends Posts {
         this.uniqueId = id;
         this.author = author;
         this.message = message;
+        this.type = "message";
 
         //add the post to the users posts
         author.addMessage(id, message);
@@ -28,5 +29,9 @@ public class OriginalMessage extends Posts {
         } else {
             throw new InvalidPostException("message is too long");
         }
+    }
+
+    public void endorseMessage() {
+        // endorse the post
     }
 }

@@ -1,6 +1,9 @@
 package socialmedia;
 
+import com.sun.management.VMOption;
 import socialmedia.Accounts.User;
+import socialmedia.Posts.Comment;
+import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.OriginalMessage;
 
 import java.io.IOException;
@@ -21,6 +24,11 @@ public class SocialMedia implements SocialMediaPlatform {
     // create local variables that contain data while the app is running
     public static Map<Integer, User> accounts = new HashMap<Integer, User>();
     public static Map<String, Integer> accountHandles = new HashMap<String, Integer>();
+
+    public static Map<Integer, OriginalMessage> messages = new HashMap<Integer, OriginalMessage>();
+    public static Map<Integer, Comment> comments = new HashMap<Integer, Comment>();
+    public static Map<Integer, Endorsement> endorsements = new HashMap<Integer, Endorsement>();
+
 
 
     @Override
@@ -204,8 +212,9 @@ public class SocialMedia implements SocialMediaPlatform {
         if (accountHandles.containsKey(handle)) {
             if (!message.equals("") && message.length() < 100) {
 
-                // create the post for the user
+                // create the post for the user and add it to the collection
                 OriginalMessage post = new OriginalMessage(accounts.size() + 1, accounts.get(accountHandles.get(handle)), message);
+                messages.put(post.getUniqueId(), post);
 
                 return post.getUniqueId();
             } else {
@@ -223,6 +232,27 @@ public class SocialMedia implements SocialMediaPlatform {
     @Override
     public int endorsePost(String handle, int id) throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
 
+        // check if the handle exists
+        if (accountHandles.containsKey(handle)) {
+            if (messages.containsKey(id)) {
+                OriginalMessage post = messages.get(id);
+                Endorsement endorsement = new Endorsement()
+
+                // endorse the post
+
+            } else if (comments.containsKey(id)) {
+
+            } else if (endorsements.containsKey(id)) {
+                throw new NotActionablePostException("this post cannot be endorsed");
+            } else {
+                throw new PostIDNotRecognisedException(String.format("a post with the id (%d) cannot be found", id))
+            }
+
+        } else {
+
+            // throw exception as handle does not exist
+            throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
+        }
     }
 
     @Override
