@@ -15,9 +15,9 @@ public class User {
     private String userHandle;
     private String description;
 
-    private ArrayList<OriginalMessage> messages;
-    private ArrayList<Comment> comments;
-    private ArrayList<Endorsement> endorsements;
+    private static ArrayList<OriginalMessage> messages;
+    private static ArrayList<Comment> comments;
+    private static ArrayList<Endorsement> endorsements;
 
     public User(int id, String handle) {
         this.userId = id;
@@ -57,13 +57,13 @@ public class User {
     public OriginalMessage addMessage(int id, String content) throws InvalidPostException {
         OriginalMessage message = new OriginalMessage(id, this, content);
 
-        this.messages.add(message);
+        messages.add(message);
 
         return message;
     }
 
     public ArrayList<OriginalMessage> getMessages() {
-        return this.messages;
+        return messages;
     }
 
     public Comment addComment(int id, OriginalMessage message, String content) {
@@ -72,14 +72,14 @@ public class User {
         Comment comment = new Comment(id, message, content, this);
 
         // add this to the users comments
-        this.comments.add(comment);
+        comments.add(comment);
 
         // return the created comment
         return comment;
     }
 
     public ArrayList<Comment> getComments() {
-        return this.comments;
+        return comments;
     }
 
     public void addEndorsement() {
@@ -87,10 +87,31 @@ public class User {
     }
 
     public ArrayList<Endorsement> getEndorsements() {
-        return this.endorsements;
+        return endorsements;
     }
 
     public int getPostCount() {
-        return this.messages.size() + this.comments.size() + this.endorsements.size();
+        return messages.size() + comments.size() + endorsements.size();
+    }
+
+    public static int getEndorsementCount() {
+        // posts can contain endorsements, count up all of them
+        // check the messages and comments as endorsements cannot endorse endorsements
+
+        // count of all endorsements
+        int count = 0;
+
+        // iterate over message
+        for (OriginalMessage message : messages) {
+            count += message.getEndorsements().size();
+        }
+
+        // iterate over comments
+        for (Comment comment : comments) {
+            count += comment.getEndorsements().size();
+        }
+
+        // return the count of endorsements
+        return count;
     }
 }

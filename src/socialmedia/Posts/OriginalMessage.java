@@ -7,8 +7,7 @@ import java.util.HashMap;
 
 public class OriginalMessage extends Posts {
     private String message;
-    protected HashMap<Integer, Comment> comments;
-    protected HashMap<Integer, Endorsement> endorsements;
+
 
     public OriginalMessage(int id, User author, String message) throws InvalidPostException {
         this.uniqueId = id;
@@ -32,5 +31,4 @@ public class OriginalMessage extends Posts {
             throw new InvalidPostException("message is too long");
         }
     }
-
 }

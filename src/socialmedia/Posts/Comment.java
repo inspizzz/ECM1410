@@ -3,6 +3,8 @@ package socialmedia.Posts;
 import socialmedia.Accounts.User;
 import socialmedia.InvalidPostException;
 
+import java.util.HashMap;
+
 public class Comment extends Posts {
     private String message;
     private OriginalMessage post;

@@ -176,9 +176,18 @@ public class SocialMedia implements SocialMediaPlatform {
 
             // begin grabbing information
             int id = user.getId();
-            String description = user.getDescription();
-            ArrayList<OriginalMessage> messages = user.getMessages();
 
+            String description = user.getDescription();
+            int postCount = user.getPostCount();
+            int endorsementCount = User.getEndorsementCount();
+
+            return String.format(
+                    "ID: %d\n" +
+                            "\t * Handle: %s\n" +
+                            "\t * Description: %s\n" +
+                            "\t * Post count: %d\n" +
+                            "\t * Endorse count: %d", id, handle, description, postCount, endorsementCount
+            );
 
         } else {
 
