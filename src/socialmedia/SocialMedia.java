@@ -43,12 +43,12 @@ public class SocialMedia implements SocialMediaPlatform {
             } else {
 
                 // account handle already exists, throw error
-                throw new IllegalHandleException("this handle already exists");
+                throw new IllegalHandleException(String.format("this handle: %s already exists", handle));
             }
         } else {
 
             // invalid account handle, is either empty, contains spaces or too long
-            throw new InvalidHandleException("handle is invalid");
+            throw new InvalidHandleException(String.format("handle: %s is invalid", handle));
         }
     }
 
@@ -73,12 +73,12 @@ public class SocialMedia implements SocialMediaPlatform {
             } else {
 
                 // account handle already exists, throw error
-                throw new IllegalHandleException("this handle already exists");
+                throw new IllegalHandleException(String.format("this handle: %s already exists", handle));
             }
         } else {
 
             // invalid account handle, is either empty, contains spaces or too long
-            throw new InvalidHandleException("handle is invalid");
+            throw new InvalidHandleException(String.format("handle: %s is invalid", handle));
         }
     }
 
@@ -112,6 +112,15 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void changeAccountHandle(String oldHandle, String newHandle) throws HandleNotRecognisedException, IllegalHandleException, InvalidHandleException {
+        // perform checks on the new handle
+        if (!newHandle.contains(" ") && newHandle.length() < 100 && !newHandle.equals("")) {
+
+
+        } else {
+
+            // invalid account handle, is either empty, contains spaces or too long
+            throw new InvalidHandleException(String.format("handle: %s is invalid", newHandle));
+        }
 
     }
 
