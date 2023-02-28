@@ -115,7 +115,28 @@ public class SocialMedia implements SocialMediaPlatform {
         // perform checks on the new handle
         if (!newHandle.contains(" ") && newHandle.length() < 100 && !newHandle.equals("")) {
 
+            // if the new account handle does not already exist
+            if (!accountHandles.containsKey(newHandle)) {
 
+                // if the handle to change exists
+                if (accountHandles.containsKey(oldHandle)) {
+
+                    // change the accounts handle
+                    User user = accounts.get(accountHandles.get(oldHandle));
+                    user.setHandle(newHandle);
+
+                    // update new handle in dictionary
+                    accountHandles.remove(oldHandle);
+                    accountHandles.put(newHandle, user.getId());
+
+                } else {
+                    throw new HandleNotRecognisedException(String.format("the handle to change: %s does not exist", oldHandle));
+                }
+            } else {
+
+                // handle already exists and cannot
+                throw new IllegalHandleException(String.format("this handle: %s already exists", newHandle));
+            }
         } else {
 
             // invalid account handle, is either empty, contains spaces or too long
