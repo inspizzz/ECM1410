@@ -3,7 +3,8 @@ package socialmedia;
 import socialmedia.Accounts.User;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * SocialMedia is a compiling and functioning implementor of
@@ -16,126 +17,57 @@ import java.util.ArrayList;
  */
 public class SocialMedia implements SocialMediaPlatform {
     // create local variables that contain data while the app is running
-    public static ArrayList<User> accounts = new ArrayList<User>();
+    public static Map<Integer, User> accounts = new HashMap<Integer, User>();
+    public static Map<String, Integer> accountHandles = new HashMap<String, Integer>();
+
 
     @Override
     public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
-        // generate a unique id that is not inside the accounts list
-        int uniqueId = accounts.size() + 1;
 
-        // create the user and give it a unique id and handle
-        User user = new User(uniqueId, handle);
+        // perform required checks on the handles and throw any errors that may occurr
+        if (!handle.contains(" ") && handle.length() < 100 && !handle.equals("")) {
+            if (!accountHandles.containsKey(handle)) {
 
-        // add this user to the array of current users
-        accounts.add(user);
+                // generate unique ID
+                int id = accounts.size() + 1;
 
-        // return the value of the users unique id
-        return uniqueId;
+                // create instance of user
+                User user = new User(id, handle);
+
+                // add user to the accounts and add to account handles
+                accounts.put(id, user);
+                accountHandles.put(handle, id);
+
+                return id;
+            } else {
+
+                // account handle already exists, throw error
+                throw new IllegalHandleException("this handle already exists");
+            }
+        } else {
+
+            // invalid account handle, is either empty, contains spaces or too long
+            throw new InvalidHandleException("handle is invalid");
+        }
     }
 
     @Override
     public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
-        // generate a unique id that is not inside the accounts list
-        int uniqueId = accounts.size() + 1;
-
-        // create the user and give it a unique id and handle
-        User user = new User(uniqueId, handle, description);
-
-        // add this user to the array of current users
-        accounts.add(user);
-
-        // return the value of the users unique id
-        return uniqueId;
     }
 
     @Override
     public void removeAccount(int id) throws AccountIDNotRecognisedException {
-        // variable used for checking if the account has been found
-        boolean found = false;
 
-        // iterate over all registered accounts
-        for (User user : accounts) {
-
-            // check if account handles match
-            if (user.getId() == id) {
-
-                // remove the user and store that user has been found
-                accounts.remove(user);
-                found = true;
-
-                // dont have to search any further
-                break;
-            }
-        }
-
-        // if the user has not been found throw error
-        if (!found) {
-            throw new AccountIDNotRecognisedException("this id does not exist");
-        }
     }
 
     @Override
     public void removeAccount(String handle) throws HandleNotRecognisedException {
-        // variable used for checking if the account has been found
-        boolean found = false;
 
-        // iterate over all registered accounts
-        for (User user : accounts) {
-
-            // check if account handles match
-            if (user.getHandle().equals(handle)) {
-
-                // remove the user and store that user has been found
-                accounts.remove(user);
-                found = true;
-
-                // dont have to search any further
-                break;
-            }
-        }
-
-        // if the user has not been found throw error
-        if (!found) {
-            throw new HandleNotRecognisedException("this handle does not exist");
-        }
     }
 
     @Override
     public void changeAccountHandle(String oldHandle, String newHandle) throws HandleNotRecognisedException, IllegalHandleException, InvalidHandleException {
-        boolean exists = false;
 
-        // iterate over all registered accounts
-        for (User user : accounts) {
-            if (user.getHandle().equals(newHandle)) {
-                exists = true;
-
-            }
-        }
-
-
-        // variable used for checking if the account has been found
-        boolean found = false;
-
-        // iterate over all registered accounts
-        for (User user : accounts) {
-
-            // check if account handle matches
-            if (user.getHandle().equals(oldHandle)) {
-
-                // change the account handle
-                user.setHandle(newHandle);
-
-                // found the account
-                found = true;
-
-                // dont have to search any further
-                break;
-            }
-        }
-
-        if (!found) {
-            throw new HandleNotRecognisedException("handle has not been recognized");
-        }
     }
 
     @Override
