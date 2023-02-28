@@ -38,6 +38,7 @@ public class SocialMedia implements SocialMediaPlatform {
                 accounts.put(id, user);
                 accountHandles.put(handle, id);
 
+                // return the id for later use
                 return id;
             } else {
 
@@ -53,6 +54,32 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
+        // perform required checks on the handles and throw any errors that may occurr
+        if (!handle.contains(" ") && handle.length() < 100 && !handle.equals("")) {
+            if (!accountHandles.containsKey(handle)) {
+
+                // generate unique ID
+                int id = accounts.size() + 1;
+
+                // create instance of user
+                User user = new User(id, handle, description);
+
+                // add user to the accounts and add to account handles
+                accounts.put(id, user);
+                accountHandles.put(handle, id);
+
+                // return the id for later use
+                return id;
+            } else {
+
+                // account handle already exists, throw error
+                throw new IllegalHandleException("this handle already exists");
+            }
+        } else {
+
+            // invalid account handle, is either empty, contains spaces or too long
+            throw new InvalidHandleException("handle is invalid");
+        }
     }
 
     @Override
