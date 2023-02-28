@@ -1,10 +1,23 @@
 package socialmedia.Accounts;
 
+import com.sun.management.VMOption;
+import socialmedia.InvalidPostException;
+import socialmedia.Posts.Comment;
+import socialmedia.Posts.Endorsement;
+import socialmedia.Posts.OriginalMessage;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class User {
 
     private int userId;
     private String userHandle;
     private String description;
+
+    private ArrayList<OriginalMessage> messages;
+    private ArrayList<Comment> comments;
+    private ArrayList<Endorsement> endorsements;
 
     public User(int id, String handle) {
         this.userId = id;
@@ -41,15 +54,31 @@ public class User {
         this.description = description;
     }
 
-    public void addMessage() {
+    public OriginalMessage addMessage(int id, String content) throws InvalidPostException {
+        OriginalMessage message = new OriginalMessage(id, this, content);
 
+        this.messages.add(message);
+
+        return message;
     }
 
-    public void addComment() {
+    public ArrayList<OriginalMessage> getMessages() {
+        return this.messages;
+    }
 
+    public void addComment(int id, OriginalMessage message, String content) {
+        Comment comment = new Comment(id, message, content, this);
+    }
+
+    public ArrayList<Comment> getComments() {
+        return this.comments;
     }
 
     public void addEndorsement() {
 
+    }
+
+    public ArrayList<Endorsement> getEndorsements() {
+        return this.endorsements;
     }
 }

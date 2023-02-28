@@ -1,8 +1,10 @@
 package socialmedia;
 
 import socialmedia.Accounts.User;
+import socialmedia.Posts.OriginalMessage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -175,6 +177,9 @@ public class SocialMedia implements SocialMediaPlatform {
             // begin grabbing information
             int id = user.getId();
             String description = user.getDescription();
+            ArrayList<OriginalMessage> messages = user.getMessages();
+
+
         } else {
 
             // handle does not exist
