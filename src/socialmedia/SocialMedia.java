@@ -160,7 +160,7 @@ public class SocialMedia implements SocialMediaPlatform {
         } else {
 
             // account handle does not exist, throw an error
-            throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle))
+            throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
         }
 
     }
