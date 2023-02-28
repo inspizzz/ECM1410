@@ -1,6 +1,9 @@
 package socialmedia;
 
+import socialmedia.Accounts.User;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * BadSocialMedia is a minimally compiling, but non-functioning implementor of
@@ -10,11 +13,22 @@ import java.io.IOException;
  * @version 1.0
  */
 public class SocialMedia implements SocialMediaPlatform {
+    // create local variables that contain data while the app is running
+    public static ArrayList<User> accounts = new ArrayList<User>();
 
     @Override
     public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
-        // TODO Auto-generated method stub
-        return 0;
+        // generate a unique id that is not inside the accounts list
+        int uniqueId = accounts.size() + 1;
+
+        // create the user and give it a unique id and handle
+        User user = new User(uniqueId, handle);
+
+        // add this user to the array of current users
+        accounts.add(user);
+
+        // return the value of the users unique id
+        return uniqueId;
     }
 
     @Override
