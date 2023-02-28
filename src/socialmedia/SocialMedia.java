@@ -167,8 +167,19 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public String showAccount(String handle) throws HandleNotRecognisedException {
-        // TODO Auto-generated method stub
-        return null;
+        if (accountHandles.containsKey(handle)) {
+
+            // begin by grabbing the user
+            User user = accounts.get(accountHandles.get(handle));
+
+            // begin grabbing information
+            int id = user.getId();
+            String description = user.getDescription();
+        } else {
+
+            // handle does not exist
+            throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
+        }
     }
 
     @Override
