@@ -8,8 +8,6 @@ public class OriginalMessage extends Post {
 
 
     public OriginalMessage(int id, User author, String message) throws InvalidPostException {
-        super();
-
         this.uniqueId = id;
         this.author = author;
         this.type = "message";

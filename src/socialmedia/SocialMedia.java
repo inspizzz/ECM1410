@@ -295,7 +295,7 @@ public class SocialMedia implements SocialMediaPlatform {
                     commentedPost.addComment(comment);
 
                     // add comment to the users comments
-                    user.addComment(commentId, commentedPost, message);
+                    user.addComment(comment);
 
                     return commentId;
                 } else {

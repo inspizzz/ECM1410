@@ -62,11 +62,7 @@ public class User {
         return messages;
     }
 
-    public void addComment(int commentId, Post commentedPost, String commentContent) {
-
-        // create the new comment
-        Comment comment = new Comment(commentId, commentedPost, commentContent, this);
-
+    public void addComment(Comment comment) {
         // add this to the users comments
         comments.add(comment);
     }
