@@ -3,13 +3,11 @@ package socialmedia.Posts;
 import socialmedia.Accounts.User;
 import socialmedia.InvalidPostException;
 
-import java.util.HashMap;
-
-public class Comment extends Posts {
+public class Comment extends Post {
     private String message;
-    private Posts post;
+    private Post post;
 
-    public Comment(int id, Posts referenceMessage, String comment, User author) {
+    public Comment(int id, Post referenceMessage, String comment, User author) {
         this.uniqueId = id;
         this.post = referenceMessage;
         this.message = comment;
@@ -27,5 +25,9 @@ public class Comment extends Posts {
         } else {
             throw new InvalidPostException("comment is too long");
         }
+    }
+
+    public void setReference(Post reference) {
+        this.post = reference;
     }
 }

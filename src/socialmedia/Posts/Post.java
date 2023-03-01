@@ -4,7 +4,7 @@ import socialmedia.Accounts.User;
 
 import java.util.HashMap;
 
-public class Posts {
+public class Post {
     protected int uniqueId;
     protected User author;
     protected HashMap<Integer, Comment> comments;
@@ -13,7 +13,7 @@ public class Posts {
     protected String type;
 
 
-    public Posts() {
+    public Post() {
         System.out.println("created an instance of posts");
     }
 
@@ -37,4 +37,7 @@ public class Posts {
         return uniqueId;
     }
 
+    public String getType() {
+        return this.type != null ? this.type : "";
+    }
 }

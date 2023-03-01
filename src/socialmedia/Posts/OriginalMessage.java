@@ -3,9 +3,7 @@ package socialmedia.Posts;
 import socialmedia.Accounts.User;
 import socialmedia.InvalidPostException;
 
-import java.util.HashMap;
-
-public class OriginalMessage extends Posts {
+public class OriginalMessage extends Post {
     private String message;
 
 
