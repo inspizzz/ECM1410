@@ -5,8 +5,8 @@ import socialmedia.InvalidPostException;
 import socialmedia.Posts.Comment;
 import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.OriginalMessage;
+import socialmedia.Posts.Post;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class User {
@@ -15,9 +15,9 @@ public class User {
     private String userHandle;
     private String description;
 
-    private static ArrayList<OriginalMessage> messages;
-    private static ArrayList<Comment> comments;
-    private static ArrayList<Endorsement> endorsements;
+    private static final ArrayList<OriginalMessage> messages = new ArrayList<>();
+    private static final ArrayList<Comment> comments = new ArrayList<>();
+    private static final ArrayList<Endorsement> endorsements = new ArrayList<>();
 
     public User(int id, String handle) {
         this.userId = id;
@@ -54,28 +54,17 @@ public class User {
         this.description = description;
     }
 
-    public OriginalMessage addMessage(int id, String content) throws InvalidPostException {
-        OriginalMessage message = new OriginalMessage(id, this, content);
-
+    public void addMessage(OriginalMessage message) throws InvalidPostException {
         messages.add(message);
-
-        return message;
     }
 
     public ArrayList<OriginalMessage> getMessages() {
         return messages;
     }
 
-    public Comment addComment(int id, OriginalMessage message, String content) {
-
-        // create the new comment
-        Comment comment = new Comment(id, message, content, this);
-
+    public void addComment(Comment comment) {
         // add this to the users comments
         comments.add(comment);
-
-        // return the created comment
-        return comment;
     }
 
     public ArrayList<Comment> getComments() {

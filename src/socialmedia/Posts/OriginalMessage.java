@@ -3,20 +3,15 @@ package socialmedia.Posts;
 import socialmedia.Accounts.User;
 import socialmedia.InvalidPostException;
 
-import java.util.HashMap;
-
-public class OriginalMessage extends Posts {
+public class OriginalMessage extends Post {
     private String message;
 
 
     public OriginalMessage(int id, User author, String message) throws InvalidPostException {
         this.uniqueId = id;
         this.author = author;
-        this.message = message;
         this.type = "message";
-
-        //add the post to the users posts
-        author.addMessage(id, message);
+        this.message = message;
     }
 
     public String getMessage() {

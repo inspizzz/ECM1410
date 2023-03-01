@@ -4,16 +4,18 @@ import socialmedia.Accounts.User;
 
 import java.util.HashMap;
 
-public class Posts {
+public class Post {
     protected int uniqueId;
     protected User author;
-    protected HashMap<Integer, Comment> comments;
-    protected HashMap<Integer, Endorsement> endorsements;
+    protected HashMap<Integer, Comment> comments = new HashMap<Integer, Comment>();
+    protected HashMap<Integer, Endorsement> endorsements = new HashMap<Integer, Endorsement>();
 
     protected String type;
 
+    protected String message;
 
-    public Posts() {
+
+    public Post() {
         System.out.println("created an instance of posts");
     }
 
@@ -37,4 +39,15 @@ public class Posts {
         return uniqueId;
     }
 
+    public String getType() {
+        return this.type != null ? this.type : "";
+    }
+
+    public String getMessage() {
+        return this.message != null ? this.message : "no message";
+    }
+
+    public User getAuthor() {
+        return this.author;
+    }
 }

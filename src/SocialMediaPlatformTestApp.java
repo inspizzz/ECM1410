@@ -29,8 +29,21 @@ public class SocialMediaPlatformTestApp {
 
 		Integer id;
 		try {
-			id = platform.createAccount("my_handle");
+
+			// create a user
+			id = platform.createAccount("my_handle", "this is the description");
+			System.out.println(platform.showAccount("my_handle"));
+
+			// check the user was created
 			assert (platform.getNumberOfAccounts() == 1) : "number of accounts registered in the system does not match";
+
+			// add the user with a post
+			int postid = platform.createPost("my_handle", "here is this posts message");
+			System.out.println(platform.showIndividualPost(postid));
+
+			// add a comment to this post
+			int commentid = platform.commentPost("my_handle", postid, "this is a comment");
+			System.out.println(platform.showIndividualPost(postid));
 
 			platform.removeAccount(id);
 			assert (platform.getNumberOfAccounts() == 0) : "number of accounts registered in the system does not match";
@@ -41,6 +54,9 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		} catch (AccountIDNotRecognisedException e) {
 			assert (false) : "AccountIDNotRecognizedException thrown incorrectly";
+		} catch (HandleNotRecognisedException | InvalidPostException | PostIDNotRecognisedException |
+				 NotActionablePostException e) {
+			throw new RuntimeException(e);
 		}
 
 	}
