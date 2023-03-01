@@ -354,8 +354,28 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public String showIndividualPost(int id) throws PostIDNotRecognisedException {
-        // TODO Auto-generated method stub
-        return null;
+
+        // check if post exists
+        if (messages.containsKey(id) || comments.containsKey(id) || endorsements.containsKey(id)) {
+
+            // get the post
+            Post post = messages.containsKey(id) ? (messages.get(id)) : (comments.containsKey(id) ? comments.get(id) : endorsements.get(id));
+
+            // create block of text
+            String data = """
+                    	 * ID: %d
+                    	 * Account: %s
+                    	 * No. endorsements: %d | No. comments: %d
+                    	 * %s
+                    """;
+
+            return String.format(data, id, post.getAuthor(), post.getEndorsements().size(), post.getComments().size(), post.getMessage());
+
+        } else {
+
+            // post with id currently does not exist
+            throw new PostIDNotRecognisedException("the post does not exist");
+        }
     }
 
     @Override

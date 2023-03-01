@@ -10,7 +10,6 @@ public class Comment extends Post {
     public Comment(int id, Post referenceMessage, String comment, User author) {
         this.uniqueId = id;
         this.post = referenceMessage;
-        this.message = comment;
         this.author = author;
         this.type = "comment";
     }

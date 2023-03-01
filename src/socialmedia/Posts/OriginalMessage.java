@@ -10,7 +10,6 @@ public class OriginalMessage extends Post {
     public OriginalMessage(int id, User author, String message) throws InvalidPostException {
         this.uniqueId = id;
         this.author = author;
-        this.message = message;
         this.type = "message";
 
         //add the post to the users posts

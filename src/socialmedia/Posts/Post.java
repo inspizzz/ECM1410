@@ -12,6 +12,8 @@ public class Post {
 
     protected String type;
 
+    protected String message;
+
 
     public Post() {
         System.out.println("created an instance of posts");
@@ -39,5 +41,13 @@ public class Post {
 
     public String getType() {
         return this.type != null ? this.type : "";
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public User getAuthor() {
+        return this.author;
     }
 }
