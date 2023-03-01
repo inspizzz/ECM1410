@@ -366,12 +366,10 @@ public class SocialMedia implements SocialMediaPlatform {
             Post post = messages.containsKey(id) ? (messages.get(id)) : (comments.containsKey(id) ? comments.get(id) : endorsements.get(id));
 
             // create block of text
-            String data = """
-                    	 * ID: %d
-                    	 * Account: %s
-                    	 * No. endorsements: %d | No. comments: %d
-                    	 * %s
-                    """;
+            String data = " * ID: %d\n"
+                    + "* Account: %s\n"
+                    + "* No. endorsements: %d | No. comments: %d\n"
+                    + "* %s";
 
             return String.format(data, id, post.getAuthor().getHandle(), post.getEndorsements().size(), post.getComments().size(), post.getMessage());
 

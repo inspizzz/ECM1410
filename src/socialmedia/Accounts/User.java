@@ -53,7 +53,7 @@ public class User {
         this.description = description;
     }
 
-    public OriginalMessage addMessage(int id, String content) throws InvalidPostException {
+    public void addMessage(int id, String content) throws InvalidPostException {
         OriginalMessage message = new OriginalMessage(id, this, content);
 
         messages.add(message);
