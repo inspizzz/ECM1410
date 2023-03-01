@@ -1,12 +1,11 @@
 package socialmedia.Accounts;
 
-import com.sun.management.VMOption;
 import socialmedia.InvalidPostException;
 import socialmedia.Posts.Comment;
 import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.OriginalMessage;
+import socialmedia.Posts.Post;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class User {
@@ -58,24 +57,19 @@ public class User {
         OriginalMessage message = new OriginalMessage(id, this, content);
 
         messages.add(message);
-
-        return message;
     }
 
     public ArrayList<OriginalMessage> getMessages() {
         return messages;
     }
 
-    public Comment addComment(int id, OriginalMessage message, String content) {
+    public void addComment(int commentId, Post commentedPost, String commentContent) {
 
         // create the new comment
-        Comment comment = new Comment(id, message, content, this);
+        Comment comment = new Comment(commentId, commentedPost, commentContent, this);
 
         // add this to the users comments
         comments.add(comment);
-
-        // return the created comment
-        return comment;
     }
 
     public ArrayList<Comment> getComments() {

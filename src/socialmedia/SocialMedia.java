@@ -274,18 +274,22 @@ public class SocialMedia implements SocialMediaPlatform {
                     User user = accounts.get(accountHandles.get(handle));
 
                     // get the post to be commented
-                    Post post = messages.containsKey(id) ? messages.get(id) : comments.get(id);
+                    Post commentedPost = messages.containsKey(id) ? messages.get(id) : comments.get(id);
 
                     // generate a unique id
                     int commentId = generatePostId();
+
                     // create a new comment
-                    Comment comment = new Comment(commentId, post, message, user);
+                    Comment comment = new Comment(commentId, commentedPost, message, user);
 
                     // add comment to all comments on platform
                     comments.put(commentId, comment);
 
                     // add comment to the posts comments
-                    post.addComment(comment);
+                    commentedPost.addComment(comment);
+
+                    // add comment to the users comments
+                    user.addComment(commentId, commentedPost, message);
 
                     return commentId;
                 } else {
@@ -379,8 +383,7 @@ public class SocialMedia implements SocialMediaPlatform {
     }
 
     @Override
-    public StringBuilder showPostChildrenDetails(int id)
-            throws PostIDNotRecognisedException, NotActionablePostException {
+    public StringBuilder showPostChildrenDetails(int id) throws PostIDNotRecognisedException, NotActionablePostException {
         // TODO Auto-generated method stub
         return null;
     }
