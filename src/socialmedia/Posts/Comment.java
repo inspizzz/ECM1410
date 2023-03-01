@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 public class Comment extends Posts {
     private String message;
-    private OriginalMessage post;
+    private Posts post;
 
-    public Comment(int id, OriginalMessage referenceMessage, String comment, User author) {
+    public Comment(int id, Posts referenceMessage, String comment, User author) {
         this.uniqueId = id;
         this.post = referenceMessage;
         this.message = comment;

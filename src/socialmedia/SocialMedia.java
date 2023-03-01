@@ -5,6 +5,7 @@ import socialmedia.Accounts.User;
 import socialmedia.Posts.Comment;
 import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.OriginalMessage;
+import socialmedia.Posts.Posts;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -191,7 +192,7 @@ public class SocialMedia implements SocialMediaPlatform {
             int endorsementCount = User.getEndorsementCount();
 
             // return the formatted string
-            return String.format("* ID: {0} \n * Handle: {1} \n * Description: {2} \n * Post count: {3} \n * Endorse count: {4}", id, handle, description, postCount, endorsementCount);
+            return String.format("* ID: %d \n * Handle: %s \n * Description: %s \n * Post count: %d \n * Endorse count: %d", id, handle, description, postCount, endorsementCount);
 
         } else {
 
@@ -263,10 +264,50 @@ public class SocialMedia implements SocialMediaPlatform {
     }
 
     @Override
-    public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException,
-            PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
-        // TODO Auto-generated method stub
-        return 0;
+    public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
+
+        // check if the user exists
+        if (accountHandles.containsKey(handle)) {
+
+            // check if a post with the id exists
+            if (messages.containsKey(id) || comments.containsKey(id) || endorsements.containsKey(id)) {
+
+                // check if the post is an endorsement
+                if (!endorsements.containsKey(id)) {
+
+                    // get the user that commented
+                    User user = accounts.get(accountHandles.get(handle));
+
+                    // get the post to be commented
+                    Posts post = messages.containsKey(id) ? messages.get(id) : comments.get(id);
+
+                    // generate a unique id
+                    int commentId = generatePostId();
+                    // create a new comment
+                    Comment comment = new Comment(commentId, post, message, user);
+
+                    // add comment to all comments on platform
+                    comments.put(commentId, comment);
+
+                    // add comment to the posts comments
+                    post.addComment(comment);
+
+                    return commentId;
+                } else {
+
+                    // cannot comment an endorsement
+                    throw new NotActionablePostException("the post is an endorsement and cannot be commented");
+                }
+            } else {
+
+                // cannot find the post id in all posts
+                throw new PostIDNotRecognisedException("the post id does not exist");
+            }
+        } else {
+
+            // cannot find the user with handle
+            throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
+        }
     }
 
     @Override
@@ -336,6 +377,10 @@ public class SocialMedia implements SocialMediaPlatform {
     public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
         // TODO Auto-generated method stub
 
+    }
+
+    public int generatePostId() {
+        return messages.size() + comments.size() + endorsements.size() + 1;
     }
 
 }
