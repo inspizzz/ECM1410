@@ -3,3 +3,15 @@ javac -cp .:../bin/ -d ../bin SocialMediaPlatformTestApp.java
 
 // then in the bin folder
 java -ea SocialMediaPlatformTestApp
+
+
+// get most endorsed accounts
+// get most posted accounts
+when there is nothing in the system return 0, null
+when there is a tie, then return both, scenario is not tested
+
+// create account no error for illegal description
+can assume that the description passed is legal.
+
+// no need for external libraries, start system then empty.
+// mess around with java packages and setup a database on system.
