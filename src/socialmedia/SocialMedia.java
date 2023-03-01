@@ -1,8 +1,14 @@
 package socialmedia;
 
+import com.sun.management.VMOption;
 import socialmedia.Accounts.User;
+import socialmedia.Posts.Comment;
+import socialmedia.Posts.Endorsement;
+import socialmedia.Posts.OriginalMessage;
+import socialmedia.Posts.Posts;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +25,11 @@ public class SocialMedia implements SocialMediaPlatform {
     // create local variables that contain data while the app is running
     public static Map<Integer, User> accounts = new HashMap<Integer, User>();
     public static Map<String, Integer> accountHandles = new HashMap<String, Integer>();
+
+    public static Map<Integer, OriginalMessage> messages = new HashMap<Integer, OriginalMessage>();
+    public static Map<Integer, Comment> comments = new HashMap<Integer, Comment>();
+    public static Map<Integer, Endorsement> endorsements = new HashMap<Integer, Endorsement>();
+
 
 
     @Override
@@ -43,12 +54,12 @@ public class SocialMedia implements SocialMediaPlatform {
             } else {
 
                 // account handle already exists, throw error
-                throw new IllegalHandleException("this handle already exists");
+                throw new IllegalHandleException(String.format("this handle: %s already exists", handle));
             }
         } else {
 
             // invalid account handle, is either empty, contains spaces or too long
-            throw new InvalidHandleException("handle is invalid");
+            throw new InvalidHandleException(String.format("handle: %s is invalid", handle));
         }
     }
 
@@ -73,12 +84,12 @@ public class SocialMedia implements SocialMediaPlatform {
             } else {
 
                 // account handle already exists, throw error
-                throw new IllegalHandleException("this handle already exists");
+                throw new IllegalHandleException(String.format("this handle: %s already exists", handle));
             }
         } else {
 
             // invalid account handle, is either empty, contains spaces or too long
-            throw new InvalidHandleException("handle is invalid");
+            throw new InvalidHandleException(String.format("handle: %s is invalid", handle));
         }
     }
 
@@ -112,39 +123,191 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void changeAccountHandle(String oldHandle, String newHandle) throws HandleNotRecognisedException, IllegalHandleException, InvalidHandleException {
+        // perform checks on the new handle
+        if (!newHandle.contains(" ") && newHandle.length() < 100 && !newHandle.equals("")) {
+
+            // if the new account handle does not already exist
+            if (!accountHandles.containsKey(newHandle)) {
+
+                // if the handle to change exists
+                if (accountHandles.containsKey(oldHandle)) {
+
+                    // change the accounts handle
+                    User user = accounts.get(accountHandles.get(oldHandle));
+                    user.setHandle(newHandle);
+
+                    // update new handle in dictionary
+                    accountHandles.remove(oldHandle);
+                    accountHandles.put(newHandle, user.getId());
+
+                } else {
+                    throw new HandleNotRecognisedException(String.format("the handle to change: %s does not exist", oldHandle));
+                }
+            } else {
+
+                // handle already exists and cannot
+                throw new IllegalHandleException(String.format("this handle: %s already exists", newHandle));
+            }
+        } else {
+
+            // invalid account handle, is either empty, contains spaces or too long
+            throw new InvalidHandleException(String.format("handle: %s is invalid", newHandle));
+        }
 
     }
 
     @Override
     public void updateAccountDescription(String handle, String description) throws HandleNotRecognisedException {
-        // TODO Auto-generated method stub
+
+        // check if the handle exists
+        if (accountHandles.containsKey(handle)) {
+
+            // grab the user
+            User user = accounts.get(accountHandles.get(handle));
+
+            // set the users description
+            user.setDescription(description);
+
+        } else {
+
+            // account handle does not exist, throw an error
+            throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
+        }
 
     }
 
     @Override
     public String showAccount(String handle) throws HandleNotRecognisedException {
-        // TODO Auto-generated method stub
-        return null;
+
+        // check if account with this handle exists
+        if (accountHandles.containsKey(handle)) {
+
+            // begin by grabbing the user
+            User user = accounts.get(accountHandles.get(handle));
+
+            // begin grabbing information
+            int id = user.getId();
+            String description = user.getDescription();
+            int postCount = user.getPostCount();
+            int endorsementCount = User.getEndorsementCount();
+
+            // return the formatted string
+            return String.format("* ID: %d \n * Handle: %s \n * Description: %s \n * Post count: %d \n * Endorse count: %d", id, handle, description, postCount, endorsementCount);
+
+        } else {
+
+            // handle does not exist
+            throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
+        }
     }
 
     @Override
     public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
-        // TODO Auto-generated method stub
-        return 0;
+        if (accountHandles.containsKey(handle)) {
+            if (!message.equals("") && message.length() < 100) {
+
+                // create the post for the user and add it to the collection
+                OriginalMessage post = new OriginalMessage(accounts.size() + 1, accounts.get(accountHandles.get(handle)), message);
+                messages.put(post.getUniqueId(), post);
+
+                return post.getUniqueId();
+            } else {
+
+                // invalid message
+                throw new InvalidPostException("this message is invalid");
+            }
+        } else {
+
+            // account handle not recognized
+            throw new HandleNotRecognisedException(String.format("handle: %s not recognized", handle));
+        }
     }
 
     @Override
-    public int endorsePost(String handle, int id)
-            throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
-        // TODO Auto-generated method stub
-        return 0;
+    public int endorsePost(String handle, int id) throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
+
+        // check if the handle exists
+        if (accountHandles.containsKey(handle)) {
+            if (messages.containsKey(id)) {
+
+                // endorse the message
+                OriginalMessage post = messages.get(id);
+                Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)));
+                post.addEndorsement(endorsement);
+
+                return endorsement.getUniqueId();
+
+            } else if (comments.containsKey(id)) {
+
+                // endorse the comment
+                Comment post = comments.get(id);
+                Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)));
+                post.addEndorsement(endorsement);
+
+                return endorsement.getUniqueId();
+
+            } else if (endorsements.containsKey(id)) {
+
+                // post is an endorsement and cannot be endorsed
+                throw new NotActionablePostException("this post cannot be endorsed");
+            } else {
+
+                // id does not exist
+                throw new PostIDNotRecognisedException(String.format("a post with the id (%d) cannot be found", id));
+            }
+
+        } else {
+
+            // throw exception as handle does not exist
+            throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
+        }
     }
 
     @Override
-    public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException,
-            PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
-        // TODO Auto-generated method stub
-        return 0;
+    public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
+
+        // check if the user exists
+        if (accountHandles.containsKey(handle)) {
+
+            // check if a post with the id exists
+            if (messages.containsKey(id) || comments.containsKey(id) || endorsements.containsKey(id)) {
+
+                // check if the post is an endorsement
+                if (!endorsements.containsKey(id)) {
+
+                    // get the user that commented
+                    User user = accounts.get(accountHandles.get(handle));
+
+                    // get the post to be commented
+                    Posts post = messages.containsKey(id) ? messages.get(id) : comments.get(id);
+
+                    // generate a unique id
+                    int commentId = generatePostId();
+                    // create a new comment
+                    Comment comment = new Comment(commentId, post, message, user);
+
+                    // add comment to all comments on platform
+                    comments.put(commentId, comment);
+
+                    // add comment to the posts comments
+                    post.addComment(comment);
+
+                    return commentId;
+                } else {
+
+                    // cannot comment an endorsement
+                    throw new NotActionablePostException("the post is an endorsement and cannot be commented");
+                }
+            } else {
+
+                // cannot find the post id in all posts
+                throw new PostIDNotRecognisedException("the post id does not exist");
+            }
+        } else {
+
+            // cannot find the user with handle
+            throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
+        }
     }
 
     @Override
@@ -168,26 +331,22 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int getNumberOfAccounts() {
-        // TODO Auto-generated method stub
-        return 0;
+        return accounts.size();
     }
 
     @Override
     public int getTotalOriginalPosts() {
-        // TODO Auto-generated method stub
-        return 0;
+        return messages.size();
     }
 
     @Override
     public int getTotalEndorsmentPosts() {
-        // TODO Auto-generated method stub
-        return 0;
+        return endorsements.size();
     }
 
     @Override
     public int getTotalCommentPosts() {
-        // TODO Auto-generated method stub
-        return 0;
+        return comments.size();
     }
 
     @Override
@@ -218,6 +377,10 @@ public class SocialMedia implements SocialMediaPlatform {
     public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
         // TODO Auto-generated method stub
 
+    }
+
+    public int generatePostId() {
+        return messages.size() + comments.size() + endorsements.size() + 1;
     }
 
 }
