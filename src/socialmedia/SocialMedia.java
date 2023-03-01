@@ -369,7 +369,7 @@ public class SocialMedia implements SocialMediaPlatform {
                     	 * %s
                     """;
 
-            return String.format(data, id, post.getAuthor(), post.getEndorsements().size(), post.getComments().size(), post.getMessage());
+            return String.format(data, id, post.getAuthor().getHandle(), post.getEndorsements().size(), post.getComments().size(), post.getMessage());
 
         } else {
 

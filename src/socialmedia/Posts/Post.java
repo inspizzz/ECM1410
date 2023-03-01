@@ -44,7 +44,7 @@ public class Post {
     }
 
     public String getMessage() {
-        return this.message != null ? this.message : "";
+        return this.message != null ? this.message : "no message";
     }
 
     public User getAuthor() {
