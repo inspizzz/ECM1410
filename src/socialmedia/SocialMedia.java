@@ -191,14 +191,7 @@ public class SocialMedia implements SocialMediaPlatform {
             int endorsementCount = User.getEndorsementCount();
 
             // return the formatted string
-            return String.format(
-                    """
-                            ID: %d
-                            \t * Handle: %s
-                            \t * Description: %s
-                            \t * Post count: %d
-                            \t * Endorse count: %d""", id, handle, description, postCount, endorsementCount
-            );
+            return String.format("* ID: {0} \n * Handle: {1} \n * Description: {2} \n * Post count: {3} \n * Endorse count: {4}", id, handle, description, postCount, endorsementCount);
 
         } else {
 
@@ -235,17 +228,31 @@ public class SocialMedia implements SocialMediaPlatform {
         // check if the handle exists
         if (accountHandles.containsKey(handle)) {
             if (messages.containsKey(id)) {
-                OriginalMessage post = messages.get(id);
-                Endorsement endorsement = new Endorsement();
 
-                // add endorsement to post
+                // endorse the message
+                OriginalMessage post = messages.get(id);
+                Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)));
+                post.addEndorsement(endorsement);
+
+                return endorsement.getUniqueId();
 
             } else if (comments.containsKey(id)) {
 
+                // endorse the comment
+                Comment post = comments.get(id);
+                Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)));
+                post.addEndorsement(endorsement);
+
+                return endorsement.getUniqueId();
+
             } else if (endorsements.containsKey(id)) {
+
+                // post is an endorsement and cannot be endorsed
                 throw new NotActionablePostException("this post cannot be endorsed");
             } else {
-                throw new PostIDNotRecognisedException(String.format("a post with the id (%d) cannot be found", id))
+
+                // id does not exist
+                throw new PostIDNotRecognisedException(String.format("a post with the id (%d) cannot be found", id));
             }
 
         } else {

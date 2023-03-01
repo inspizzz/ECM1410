@@ -1,0 +1,5 @@
+// in the src folder
+javac -cp .:../bin/ -d ../bin SocialMediaPlatformTestApp.java
+
+// then in the bin folder
+java -ea SocialMediaPlatformTestApp
