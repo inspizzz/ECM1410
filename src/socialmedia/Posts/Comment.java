@@ -12,6 +12,7 @@ public class Comment extends Post {
         this.post = referenceMessage;
         this.author = author;
         this.type = "comment";
+        this.message = comment;
     }
 
     public String getComment() {

@@ -1,5 +1,6 @@
 package socialmedia.Accounts;
 
+import com.sun.management.VMOption;
 import socialmedia.InvalidPostException;
 import socialmedia.Posts.Comment;
 import socialmedia.Posts.Endorsement;
@@ -53,9 +54,7 @@ public class User {
         this.description = description;
     }
 
-    public void addMessage(int id, String content) throws InvalidPostException {
-        OriginalMessage message = new OriginalMessage(id, this, content);
-
+    public void addMessage(OriginalMessage message) throws InvalidPostException {
         messages.add(message);
     }
 

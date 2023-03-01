@@ -8,12 +8,12 @@ public class OriginalMessage extends Post {
 
 
     public OriginalMessage(int id, User author, String message) throws InvalidPostException {
+        super();
+
         this.uniqueId = id;
         this.author = author;
         this.type = "message";
-
-        //add the post to the users posts
-        author.addMessage(id, message);
+        this.message = message;
     }
 
     public String getMessage() {

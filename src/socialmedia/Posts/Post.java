@@ -7,8 +7,8 @@ import java.util.HashMap;
 public class Post {
     protected int uniqueId;
     protected User author;
-    protected HashMap<Integer, Comment> comments;
-    protected HashMap<Integer, Endorsement> endorsements;
+    protected HashMap<Integer, Comment> comments = new HashMap<Integer, Comment>();
+    protected HashMap<Integer, Endorsement> endorsements = new HashMap<Integer, Endorsement>();
 
     protected String type;
 

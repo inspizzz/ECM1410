@@ -190,7 +190,7 @@ public class SocialMedia implements SocialMediaPlatform {
             int endorsementCount = User.getEndorsementCount();
 
             // return the formatted string
-            return String.format("* ID: %d \n * Handle: %s \n * Description: %s \n * Post count: %d \n * Endorse count: %d", id, handle, description, postCount, endorsementCount);
+            return String.format(" * ID: %d \n * Handle: %s \n * Description: %s \n * Post count: %d \n * Endorse count: %d", id, handle, description, postCount, endorsementCount);
 
         } else {
 
@@ -204,9 +204,15 @@ public class SocialMedia implements SocialMediaPlatform {
         if (accountHandles.containsKey(handle)) {
             if (!message.equals("") && message.length() < 100) {
 
+                // get the user that is creating the post
+                User user = accounts.get(accountHandles.get(handle));
+
                 // create the post for the user and add it to the collection
-                OriginalMessage post = new OriginalMessage(accounts.size() + 1, accounts.get(accountHandles.get(handle)), message);
+                OriginalMessage post = new OriginalMessage(generatePostId(), accounts.get(accountHandles.get(handle)), message);
                 messages.put(post.getUniqueId(), post);
+
+                // add post to the user
+                user.addMessage(post);
 
                 return post.getUniqueId();
             } else {
@@ -367,12 +373,12 @@ public class SocialMedia implements SocialMediaPlatform {
 
             // create block of text
             String data = " * ID: %d\n"
-                    + "* Account: %s\n"
-                    + "* No. endorsements: %d | No. comments: %d\n"
-                    + "* %s";
+                    + " * Account: %s\n"
+                    + " * No. endorsements: %d | No. comments: %d\n"
+                    + " * %s";
 
+            // return this string formatted
             return String.format(data, id, post.getAuthor().getHandle(), post.getEndorsements().size(), post.getComments().size(), post.getMessage());
-
         } else {
 
             // post with id currently does not exist
