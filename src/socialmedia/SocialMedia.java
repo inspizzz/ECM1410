@@ -236,9 +236,9 @@ public class SocialMedia implements SocialMediaPlatform {
         if (accountHandles.containsKey(handle)) {
             if (messages.containsKey(id)) {
                 OriginalMessage post = messages.get(id);
-                Endorsement endorsement = new Endorsement()
+                Endorsement endorsement = new Endorsement();
 
-                // endorse the post
+                // add endorsement to post
 
             } else if (comments.containsKey(id)) {
 
