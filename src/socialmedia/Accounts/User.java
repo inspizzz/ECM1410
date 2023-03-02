@@ -1,17 +1,14 @@
 package socialmedia.Accounts;
 
-import com.sun.management.VMOption;
 import socialmedia.InvalidPostException;
 import socialmedia.Posts.Comment;
 import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.OriginalMessage;
-import socialmedia.Posts.Post;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class User implements Serializable {
-
     private int userId;
     private String userHandle;
     private String description;
