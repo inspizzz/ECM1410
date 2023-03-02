@@ -429,18 +429,29 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int getMostEndorsedAccount() {
-        int max = 0;
+
+        int total;
+        Map<Integer, Integer> endorsedUser = new HashMap<Integer, Integer>();
 
         // for all users check how many endorsements it has
         for (User user : accounts.values()) {
+            total = 0;
 
-            // check if the number of endorsements on this account
-            if (user.getEndorsements().size() > max) {
-                max = user.getEndorsements().size();
+            // check how many endorsements each message has
+            for (OriginalMessage message : user.getMessages()) {
+                total += message.getEndorsements().size();
             }
+
+            // check how many endorsements each comment has
+            for (Comment comment : user.getComments()) {
+                total += comment.getEndorsements().size();
+            }
+
+            // update the users total linking it to the users id
+            endorsedUser.put(total, user.getId());
         }
 
-        return max;
+        return endorsedUser.get(Collections.max(endorsedUser.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
     }
 
     @Override
