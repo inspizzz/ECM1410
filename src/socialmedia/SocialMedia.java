@@ -456,8 +456,22 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void erasePlatform() {
-        // TODO Auto-generated method stub
 
+        // go over every user and erase their data
+        for (User user : accounts.values()) {
+            user.clearMessages();
+            user.clearComments();
+            user.clearEndorsements();
+        }
+
+        // remove accounts
+        accounts.clear();
+        accountHandles.clear();
+
+        // remove posts
+        messages.clear();
+        comments.clear();
+        endorsements.clear();
     }
 
     @Override

@@ -103,4 +103,16 @@ public class User {
         // return the count of endorsements
         return count;
     }
+
+    public void clearMessages() {
+        messages.clear();
+    }
+
+    public void clearComments() {
+        comments.clear();
+    }
+
+    public void clearEndorsements() {
+        endorsements.clear();
+    }
 }
