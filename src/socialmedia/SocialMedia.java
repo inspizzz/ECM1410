@@ -414,8 +414,20 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int getMostEndorsedPost() {
-        // TODO Auto-generated method stub
-        return 0;
+        int max = 0;
+
+        for (OriginalMessage post : messages.values()) {
+
+            // check how many endorsements it has
+            int size = post.getEndorsements().size();
+
+            // check if it is the new largest
+            if (size > max) {
+                max = size;
+            }
+        }
+
+        return max;
     }
 
     @Override
