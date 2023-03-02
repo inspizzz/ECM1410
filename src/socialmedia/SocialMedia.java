@@ -7,8 +7,7 @@ import socialmedia.Posts.OriginalMessage;
 import socialmedia.Posts.Post;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * SocialMedia is a compiling and functioning implementor of
@@ -414,26 +413,34 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int getMostEndorsedPost() {
-        int max = 0;
+        Map<Integer, Integer> endorsedPosts = new HashMap<Integer, Integer>();
 
         for (OriginalMessage post : messages.values()) {
 
             // check how many endorsements it has
             int size = post.getEndorsements().size();
 
-            // check if it is the new largest
-            if (size > max) {
-                max = size;
-            }
+            // add to the hashmap
+            endorsedPosts.put(size, post.getUniqueId());
         }
 
-        return max;
+        return endorsedPosts.get(Collections.max(endorsedPosts.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
     }
 
     @Override
     public int getMostEndorsedAccount() {
-        // TODO Auto-generated method stub
-        return 0;
+        int max = 0;
+
+        // for all users check how many endorsements it has
+        for (User user : accounts.values()) {
+
+            // check if the number of endorsements on this account
+            if (user.getEndorsements().size() > max) {
+                max = user.getEndorsements().size();
+            }
+        }
+
+        return max;
     }
 
     @Override
