@@ -464,6 +464,7 @@ public class SocialMedia implements SocialMediaPlatform {
             user.clearEndorsements();
         }
 
+
         // remove accounts
         accounts.clear();
         accountHandles.clear();
@@ -476,7 +477,7 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void savePlatform(String filename) throws IOException {
-        // TODO Auto-generated method stub
+
 
     }
 
