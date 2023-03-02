@@ -7,9 +7,10 @@ import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.OriginalMessage;
 import socialmedia.Posts.Post;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable {
 
     private int userId;
     private String userHandle;
@@ -114,5 +115,10 @@ public class User {
 
     public void clearEndorsements() {
         endorsements.clear();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{%d, %s, %s, messages:{%s}, comments:{%s}, endorsements{%s}}", userId, userHandle, description, messages, comments, endorsements);
     }
 }
