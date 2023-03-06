@@ -7,8 +7,7 @@ import socialmedia.Posts.OriginalMessage;
 import socialmedia.Posts.Post;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * SocialMedia is a compiling and functioning implementor of
@@ -414,25 +413,71 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int getMostEndorsedPost() {
-        // TODO Auto-generated method stub
-        return 0;
+        Map<Integer, Integer> endorsedPosts = new HashMap<Integer, Integer>();
+
+        for (OriginalMessage post : messages.values()) {
+
+            // check how many endorsements it has
+            int size = post.getEndorsements().size();
+
+            // add to the hashmap
+            endorsedPosts.put(size, post.getUniqueId());
+        }
+
+        return endorsedPosts.get(Collections.max(endorsedPosts.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
     }
 
     @Override
     public int getMostEndorsedAccount() {
-        // TODO Auto-generated method stub
-        return 0;
+
+        int total;
+        Map<Integer, Integer> endorsedUser = new HashMap<Integer, Integer>();
+
+        // for all users check how many endorsements it has
+        for (User user : accounts.values()) {
+            total = 0;
+
+            // check how many endorsements each message has
+            for (OriginalMessage message : user.getMessages()) {
+                total += message.getEndorsements().size();
+            }
+
+            // check how many endorsements each comment has
+            for (Comment comment : user.getComments()) {
+                total += comment.getEndorsements().size();
+            }
+
+            // update the users total linking it to the users id
+            endorsedUser.put(total, user.getId());
+        }
+
+        return endorsedUser.get(Collections.max(endorsedUser.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
     }
 
     @Override
     public void erasePlatform() {
-        // TODO Auto-generated method stub
 
+        // go over every user and erase their data
+        for (User user : accounts.values()) {
+            user.clearMessages();
+            user.clearComments();
+            user.clearEndorsements();
+        }
+
+
+        // remove accounts
+        accounts.clear();
+        accountHandles.clear();
+
+        // remove posts
+        messages.clear();
+        comments.clear();
+        endorsements.clear();
     }
 
     @Override
     public void savePlatform(String filename) throws IOException {
-        // TODO Auto-generated method stub
+
 
     }
 

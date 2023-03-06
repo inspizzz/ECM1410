@@ -1,16 +1,14 @@
 package socialmedia.Accounts;
 
-import com.sun.management.VMOption;
 import socialmedia.InvalidPostException;
 import socialmedia.Posts.Comment;
 import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.OriginalMessage;
-import socialmedia.Posts.Post;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
-
+public class User implements Serializable {
     private int userId;
     private String userHandle;
     private String description;
@@ -102,5 +100,22 @@ public class User {
 
         // return the count of endorsements
         return count;
+    }
+
+    public void clearMessages() {
+        messages.clear();
+    }
+
+    public void clearComments() {
+        comments.clear();
+    }
+
+    public void clearEndorsements() {
+        endorsements.clear();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{%d, %s, %s, messages:{%s}, comments:{%s}, endorsements{%s}}", userId, userHandle, description, messages, comments, endorsements);
     }
 }
