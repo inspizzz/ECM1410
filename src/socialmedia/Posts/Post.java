@@ -15,6 +15,8 @@ public class Post implements Serializable {
 
     protected String message;
 
+    protected Post referencePost;
+
 
     public Post() {
         System.out.println("created an instance of posts");
