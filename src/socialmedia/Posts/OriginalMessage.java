@@ -4,7 +4,6 @@ import socialmedia.Accounts.User;
 import socialmedia.InvalidPostException;
 
 public class OriginalMessage extends Post {
-    private String message;
 
 
     public OriginalMessage(int id, User author, String message) throws InvalidPostException {

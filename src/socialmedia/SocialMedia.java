@@ -235,7 +235,7 @@ public class SocialMedia implements SocialMediaPlatform {
 
                 // endorse the message
                 OriginalMessage post = messages.get(id);
-                Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)));
+                Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)), post);
                 post.addEndorsement(endorsement);
 
                 return endorsement.getUniqueId();
@@ -243,7 +243,7 @@ public class SocialMedia implements SocialMediaPlatform {
 
                 // endorse the comment
                 Comment post = comments.get(id);
-                Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)));
+                Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)), post);
                 post.addEndorsement(endorsement);
 
                 return endorsement.getUniqueId();
@@ -477,7 +477,6 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void savePlatform(String filename) throws IOException {
-
 
     }
 

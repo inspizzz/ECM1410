@@ -8,12 +8,16 @@ import java.util.HashMap;
 public class Post implements Serializable {
     protected int uniqueId;
     protected User author;
+    protected String type;
+    protected String message;
+    protected Post referencePost;
+
     protected HashMap<Integer, Comment> comments = new HashMap<Integer, Comment>();
     protected HashMap<Integer, Endorsement> endorsements = new HashMap<Integer, Endorsement>();
 
-    protected String type;
 
-    protected String message;
+
+
 
 
     public Post() {
