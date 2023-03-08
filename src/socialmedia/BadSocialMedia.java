@@ -1,6 +1,8 @@
 package socialmedia;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 /**
  * BadSocialMedia is a minimally compiling, but non-functioning implementor of
@@ -138,6 +140,14 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	@Override
 	public void savePlatform(String filename) throws IOException {
 		// TODO Auto-generated method stub
+		ObjectOutputStream fileStream = null
+		fileStream = new ObjectOutputStream((new FileOutputStream((filename));
+		fileStream.writeObject(accountInstance);
+		fileStream.writeObject(showAccount(commentPost());
+		fileStream.close();
+
+
+
 
 	}
 
