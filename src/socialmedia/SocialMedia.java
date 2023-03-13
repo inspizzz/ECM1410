@@ -496,6 +496,11 @@ public class SocialMedia implements SocialMediaPlatform {
         }
     }
 
+    /**
+     * @param filename location of the file to be loaded
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     @Override
     public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
         SocialMedia platform = null;
@@ -516,7 +521,7 @@ public class SocialMedia implements SocialMediaPlatform {
             i.printStackTrace();
             return;
         } catch (ClassNotFoundException c) {
-            System.out.println("User class not found");
+            System.out.println("class not found");
             c.printStackTrace();
             return;
         }
@@ -528,7 +533,9 @@ public class SocialMedia implements SocialMediaPlatform {
         accounts = platform.getAccounts();
         accountHandles = platform.getAccountHandles();
 
-        messages =
+        messages = platform.getMessages();
+        comments = platform.getComments();
+        endorsements = platform.getEndorsements();
     }
 
     public int generatePostId() {
@@ -545,6 +552,14 @@ public class SocialMedia implements SocialMediaPlatform {
 
     public Map<Integer, OriginalMessage> getMessages() {
         return messages;
+    }
+
+    public Map<Integer, Comment> getComments() {
+        return comments;
+    }
+
+    public Map<Integer, Endorsement> getEndorsements() {
+        return endorsements;
     }
 
 
