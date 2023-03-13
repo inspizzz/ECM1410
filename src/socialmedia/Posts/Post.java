@@ -2,10 +2,9 @@ package socialmedia.Posts;
 
 import socialmedia.Accounts.User;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
-public class Post implements Serializable {
+public class Post  {
     protected int uniqueId;
     protected User author;
     protected String type;
@@ -54,10 +53,5 @@ public class Post implements Serializable {
 
     public User getAuthor() {
         return this.author;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("{%d, author:{%s}, comments:{%s}, endorsements:{%s}, %s, %s}", uniqueId, author, comments, endorsements, type, message);
     }
 }

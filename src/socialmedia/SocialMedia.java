@@ -6,7 +6,8 @@ import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.OriginalMessage;
 import socialmedia.Posts.Post;
 
-import java.io.IOException;
+import java.io.*;
+
 import java.util.*;
 
 /**
@@ -26,7 +27,6 @@ public class SocialMedia implements SocialMediaPlatform {
     public static Map<Integer, OriginalMessage> messages = new HashMap<Integer, OriginalMessage>();
     public static Map<Integer, Comment> comments = new HashMap<Integer, Comment>();
     public static Map<Integer, Endorsement> endorsements = new HashMap<Integer, Endorsement>();
-
 
 
     @Override
@@ -477,17 +477,75 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void savePlatform(String filename) throws IOException {
+        try {
 
+            // initialise the output streams
+            FileOutputStream fileOut = new FileOutputStream(filename);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+
+            // for every user serialising it
+            out.writeObject(this);
+
+            // close connections
+            out.close();
+            fileOut.close();
+
+        } catch(IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
-        // TODO Auto-generated method stub
+        SocialMedia platform = null;
+        try {
 
+            // open input stream reader
+            FileInputStream fileIn = new FileInputStream(filename);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+
+            // read user
+            platform = (SocialMedia) in.readObject();
+
+            // close connection
+            in.close();
+            fileIn.close();
+
+        } catch (IOException i) {
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("User class not found");
+            c.printStackTrace();
+            return;
+        }
+
+        System.out.println("Deserialized platform...");
+        System.out.println("description: " + platform.getNumberOfAccounts());
+
+        // load in all of the data into this instance of the class
+        accounts = platform.getAccounts();
+        accountHandles = platform.getAccountHandles();
+
+        messages =
     }
 
     public int generatePostId() {
         return messages.size() + comments.size() + endorsements.size() + 1;
     }
+
+    public Map<Integer, User> getAccounts() {
+        return accounts;
+    }
+
+    public Map<String, Integer> getAccountHandles() {
+        return accountHandles;
+    }
+
+    public Map<Integer, OriginalMessage> getMessages() {
+        return messages;
+    }
+
 
 }

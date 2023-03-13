@@ -1,5 +1,7 @@
 import socialmedia.*;
 
+import java.io.IOException;
+
 /**
  * A short program to illustrate an app testing some minimal functionality of a
  * concrete implementation of the SocialMediaPlatform interface -- note you will
@@ -45,6 +47,11 @@ public class SocialMediaPlatformTestApp {
 			int commentid = platform.commentPost("my_handle", postid, "this is a comment");
 			System.out.println(platform.showIndividualPost(postid));
 
+			// save the file here
+			platform.savePlatform("saved.txt");
+			platform.loadPlatform("saved.txt");
+
+			// remove account
 			platform.removeAccount(id);
 			assert (platform.getNumberOfAccounts() == 0) : "number of accounts registered in the system does not match";
 
@@ -55,7 +62,7 @@ public class SocialMediaPlatformTestApp {
 		} catch (AccountIDNotRecognisedException e) {
 			assert (false) : "AccountIDNotRecognizedException thrown incorrectly";
 		} catch (HandleNotRecognisedException | InvalidPostException | PostIDNotRecognisedException |
-				 NotActionablePostException e) {
+				 NotActionablePostException | IOException | ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 
