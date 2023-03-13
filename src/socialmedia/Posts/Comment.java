@@ -5,11 +5,10 @@ import socialmedia.InvalidPostException;
 
 public class Comment extends Post {
     private String message;
-    private Post post;
 
     public Comment(int id, Post referenceMessage, String comment, User author) {
         this.uniqueId = id;
-        this.post = referenceMessage;
+        this.referencePost = referenceMessage;
         this.author = author;
         this.type = "comment";
         this.message = comment;
@@ -28,6 +27,6 @@ public class Comment extends Post {
     }
 
     public void setReference(Post reference) {
-        this.post = reference;
+        this.referencePost = reference;
     }
 }
