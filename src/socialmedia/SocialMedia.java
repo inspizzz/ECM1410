@@ -231,36 +231,37 @@ public class SocialMedia implements SocialMediaPlatform {
 
         // check if the handle exists
         if (accountHandles.containsKey(handle)) {
-            if (messages.containsKey(id)) {
-
-                // endorse the message
-                OriginalMessage post = messages.get(id);
-                Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)), post);
-                post.addEndorsement(endorsement);
-
-                return endorsement.getUniqueId();
-            } else if (comments.containsKey(id)) {
-
-                // endorse the comment
-                Comment post = comments.get(id);
-                Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)), post);
-                post.addEndorsement(endorsement);
-
-                return endorsement.getUniqueId();
-            } else if (endorsements.containsKey(id)) {
-
-                // post is an endorsement and cannot be endorsed
-                throw new NotActionablePostException("this post cannot be endorsed");
-            } else {
-
-                // id does not exist
-                throw new PostIDNotRecognisedException(String.format("a post with the id (%d) cannot be found", id));
-            }
-        } else {
-
-            // throw exception as handle does not exist
             throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
         }
+
+
+        if (messages.containsKey(id)) {
+
+            // endorse the message
+            OriginalMessage post = messages.get(id);
+            Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)), post);
+            post.addEndorsement(endorsement);
+
+            return endorsement.getUniqueId();
+        } else if (comments.containsKey(id)) {
+
+            // endorse the comment
+            Comment post = comments.get(id);
+            Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)), post);
+            post.addEndorsement(endorsement);
+
+            return endorsement.getUniqueId();
+        } else if (endorsements.containsKey(id)) {
+
+            // post is an endorsement and cannot be endorsed
+            throw new NotActionablePostException("this post cannot be endorsed");
+        } else {
+
+            // id does not exist
+            throw new PostIDNotRecognisedException(String.format("a post with the id (%d) cannot be found", id));
+        }
+            // throw exception as handle does not exist
+
     }
 
     @Override
@@ -477,54 +478,31 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void savePlatform(String filename) throws IOException {
-        try {
+        // initialise the output streams
+        FileOutputStream fileOut = new FileOutputStream(filename);
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
-            // initialise the output streams
-            FileOutputStream fileOut = new FileOutputStream(filename);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        // for every user serialising it
+        out.writeObject(this);
 
-            // for every user serialising it
-            out.writeObject(this);
-
-            // close connections
-            out.close();
-            fileOut.close();
-
-        } catch(IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+        // close connections
+        out.close();
+        fileOut.close();
     }
 
-    /**
-     * @param filename location of the file to be loaded
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
     @Override
     public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
-        SocialMedia platform = null;
-        try {
+        // open input stream reader
+        FileInputStream fileIn = new FileInputStream(filename);
+        ObjectInputStream in = new ObjectInputStream(fileIn);
 
-            // open input stream reader
-            FileInputStream fileIn = new FileInputStream(filename);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
+        // read user
+        SocialMedia platform = (SocialMedia) in.readObject();
 
-            // read user
-            platform = (SocialMedia) in.readObject();
+        // close connection
+        in.close();
+        fileIn.close();
 
-            // close connection
-            in.close();
-            fileIn.close();
-
-        } catch (IOException i) {
-            i.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("class not found");
-            c.printStackTrace();
-            return;
-        }
 
         System.out.println("Deserialized platform...");
         System.out.println("description: " + platform.getNumberOfAccounts());

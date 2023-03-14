@@ -13,9 +13,9 @@ public class User implements Serializable {
     private String userHandle;
     private String description;
 
-    private static ArrayList<OriginalMessage> messages = new ArrayList<>();
-    private static ArrayList<Comment> comments = new ArrayList<>();
-    private static ArrayList<Endorsement> endorsements = new ArrayList<>();
+    private static final ArrayList<OriginalMessage> messages = new ArrayList<>();
+    private static final ArrayList<Comment> comments = new ArrayList<>();
+    private static final ArrayList<Endorsement> endorsements = new ArrayList<>();
 
     public User(int id, String handle) {
         this.userId = id;
