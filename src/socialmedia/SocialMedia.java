@@ -325,34 +325,26 @@ public class SocialMedia implements SocialMediaPlatform {
             throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
         }
 
+        Post post = posts.get(id);
 
+        String data = " * ID: %d\n"
+                + " * Account: %s\n"
+                + " * No. endorsements: %d | No. comments: %d\n"
+                + " * %s";
 
-        // check if post exists
-        if (messages.containsKey(id) || comments.containsKey(id) || endorsements.containsKey(id)) {
-
-            // get the post
-            Post post = messages.containsKey(id) ? (messages.get(id)) : (comments.containsKey(id) ? comments.get(id) : endorsements.get(id));
-
-            // create block of text
-            String data = " * ID: %d\n"
-                    + " * Account: %s\n"
-                    + " * No. endorsements: %d | No. comments: %d\n"
-                    + " * %s";
-
-            // return this string formatted
-            return String.format(data, id, post.getAuthor().getHandle(), post.getEndorsements().size(), post.getComments().size(), post.getMessage());
-        } else {
-
-            // post with id currently does not exist
-            throw new PostIDNotRecognisedException("the post does not exist");
-        }
+        // return this string formatted
+        return String.format(data, id, post.getAuthor().getHandle(), post.getEndorsements().size(), post.getComments().size(), post.getMessage());
     }
 
     @Override
     public StringBuilder showPostChildrenDetails(int id) throws PostIDNotRecognisedException, NotActionablePostException {
-        if (!messages.containsKey(id) && !comments.containsKey(id) && !endorsements.containsKey(id)) {
-
+        if (!posts.containsKey(id)) {
+            //post id is not recognised
+            throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
         }
+
+        Post post = posts.get(id);
+
     }
 
     @Override
@@ -362,7 +354,17 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int getTotalOriginalPosts() {
-        return messages.size();
+        int counter = 0;
+
+        for (Post post : posts.values()) {
+            if (post instanceof OriginalMessage) {
+                counter ++;
+            } else {
+                // debug
+                System.out.println("somethings wrong with this if statement");
+            }
+        }
+        return counter;
     }
 
     @Override
