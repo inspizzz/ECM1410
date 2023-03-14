@@ -24,9 +24,10 @@ public class SocialMedia implements SocialMediaPlatform {
     public static Map<Integer, User> accounts = new HashMap<Integer, User>();
     public static Map<String, Integer> accountHandles = new HashMap<String, Integer>();
 
-    public static Map<Integer, OriginalMessage> messages = new HashMap<Integer, OriginalMessage>();
-    public static Map<Integer, Comment> comments = new HashMap<Integer, Comment>();
-    public static Map<Integer, Endorsement> endorsements = new HashMap<Integer, Endorsement>();
+//    public static Map<Integer, OriginalMessage> messages = new HashMap<Integer, OriginalMessage>();
+//    public static Map<Integer, Comment> comments = new HashMap<Integer, Comment>();
+//    public static Map<Integer, Endorsement> endorsements = new HashMap<Integer, Endorsement>();
+    public static Map<Integer, Post> posts = new HashMap<Integer, Post>();
 
 
     @Override
@@ -200,30 +201,20 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
-        if (accountHandles.containsKey(handle)) {
-            if (!message.equals("") && message.length() < 100) {
-
-                // get the user that is creating the post
-                User user = accounts.get(accountHandles.get(handle));
-
-                // create the post for the user and add it to the collection
-                OriginalMessage post = new OriginalMessage(generatePostId(), accounts.get(accountHandles.get(handle)), message);
-                messages.put(post.getUniqueId(), post);
-
-                // add post to the user
-                user.addMessage(post);
-
-                return post.getUniqueId();
-            } else {
-
-                // invalid message
-                throw new InvalidPostException("this message is invalid");
-            }
-        } else {
-
-            // account handle not recognized
+        if (!accountHandles.containsKey(handle)) {
             throw new HandleNotRecognisedException(String.format("handle: %s not recognized", handle));
         }
+
+        if (message.equals("") || message.length() > 100) {
+            throw new InvalidPostException("this message is invalid");
+        }
+
+        User user = accounts.get(accountHandles.get(handle));
+        OriginalMessage post = new OriginalMessage(generatePostId(), accounts.get(accountHandles.get(handle)), message);
+        posts.put(post.getUniqueId(), post);
+        user.addMessage(post);
+
+        return post.getUniqueId();
     }
 
     @Override
@@ -234,136 +225,107 @@ public class SocialMedia implements SocialMediaPlatform {
             throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
         }
 
-
-        if (messages.containsKey(id)) {
-
-            // endorse the message
-            OriginalMessage post = messages.get(id);
-            Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)), post);
-            post.addEndorsement(endorsement);
-
-            return endorsement.getUniqueId();
-        } else if (comments.containsKey(id)) {
-
-            // endorse the comment
-            Comment post = comments.get(id);
-            Endorsement endorsement = new Endorsement(endorsements.size() + 1, accounts.get(accountHandles.get(handle)), post);
-            post.addEndorsement(endorsement);
-
-            return endorsement.getUniqueId();
-        } else if (endorsements.containsKey(id)) {
-
-            // post is an endorsement and cannot be endorsed
-            throw new NotActionablePostException("this post cannot be endorsed");
-        } else {
-
-            // id does not exist
-            throw new PostIDNotRecognisedException(String.format("a post with the id (%d) cannot be found", id));
+        // check if post id is recognised
+        if (!posts.containsKey(id)) {
+            throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
         }
-            // throw exception as handle does not exist
 
+        Post post = posts.get(id);
+
+        if (post.getType().equals("endorsement")) {
+            throw new NotActionablePostException("this post cannot be endorsed");
+        }
+
+        Endorsement endorsement = new Endorsement(generatePostId(), accounts.get(accountHandles.get(handle)), post);
+        post.addEndorsement(endorsement);
+        posts.put(endorsement.getUniqueId(), endorsement);
+
+        return endorsement.getUniqueId();
     }
 
     @Override
     public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
 
-        // check if the user exists
-        if (accountHandles.containsKey(handle)) {
-
-            // check if a post with the id exists
-            if (messages.containsKey(id) || comments.containsKey(id) || endorsements.containsKey(id)) {
-
-                // check if the post is an endorsement
-                if (!endorsements.containsKey(id)) {
-
-                    // get the user that commented
-                    User user = accounts.get(accountHandles.get(handle));
-
-                    // get the post to be commented
-                    Post commentedPost = messages.containsKey(id) ? messages.get(id) : comments.get(id);
-
-                    // generate a unique id
-                    int commentId = generatePostId();
-
-                    // create a new comment
-                    Comment comment = new Comment(commentId, commentedPost, message, user);
-
-                    // add comment to all comments on platform
-                    comments.put(commentId, comment);
-
-                    // add comment to the posts comments
-                    commentedPost.addComment(comment);
-
-                    // add comment to the users comments
-                    user.addComment(comment);
-
-                    return commentId;
-                } else {
-
-                    // cannot comment an endorsement
-                    throw new NotActionablePostException("the post is an endorsement and cannot be commented");
-                }
-            } else {
-
-                // cannot find the post id in all posts
-                throw new PostIDNotRecognisedException("the post id does not exist");
-            }
-        } else {
-
+        if (!accountHandles.containsKey(handle)) {
             // cannot find the user with handle
             throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
         }
+
+        User user = accounts.get(accountHandles.get(handle));
+
+        if (!posts.containsKey(id)) {
+            // cannot find post with id
+            throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
+        }
+
+        Post post = posts.get(id);
+
+        if (post.getType().equals("endorsement")) {
+            // cannot comment this post
+            throw new NotActionablePostException("this post cannot be commented");
+        }
+
+        if (message.equals("") || message.length() > 100) {
+            // invalid message
+            throw new InvalidPostException("the comments message is invalid");
+        }
+
+        Comment comment = new Comment(generatePostId(), post, message, user);
+        posts.put(comment.getUniqueId(), comment);
+        user.addComment(comment);
+        post.addComment(comment);
+
+        return comment.getUniqueId();
     }
 
     @Override
     public void deletePost(int id) throws PostIDNotRecognisedException {
 
-        // check if the post exists first
-        if (messages.containsKey(id) || comments.containsKey(id) || endorsements.containsKey(id)) {
-
-            // get the post
-            Post post = messages.containsKey(id) ? (messages.get(id)) : (comments.containsKey(id) ?  comments.get(id) : endorsements.get(id));
-
-            // remove posts endorsements
-            for (Endorsement endorsement : post.getEndorsements().values()) {
-                if (endorsements.containsKey(endorsement.getUniqueId())) {
-
-                    // remove it from the endorsements collection
-                    endorsements.remove(endorsement.getUniqueId());
-                } else {
-
-                    // not in array so no harm no foul
-                    throw new PostIDNotRecognisedException("attempted to remove endorsement that hasnt been registered");
-                }
-            }
-
-            // remove associations of the posts comments
-            for (Comment comment : post.getComments().values()) {
-
-                // check if the post exists
-                if (comments.containsKey(comment.getUniqueId())) {
-
-                    // remove the association but keep the post
-                    comment.setReference(null);
-                } else {
-
-                    // the post is not in the program
-                    throw new PostIDNotRecognisedException("this comment is not registered");
-                }
-            }
-
-            // finally remove post, problem is i dont know which hashmap the post is inside
-            Post post1 = messages.containsKey(post.getUniqueId()) ? messages.remove(post.getUniqueId()) : (comments.containsKey(post.getUniqueId()) ? comments.remove(post.getUniqueId()) : endorsements.remove(post.getUniqueId()));
-
-        } else {
-
+        // chcek if the post exists
+        if (!posts.containsKey(id)) {
             // error, post id does not exist
-            throw new PostIDNotRecognisedException("invalid post id, it doesnt exist");
+            throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
         }
+
+        // get the post
+        Post post = posts.get(id);
+
+        // remove all references of it from the program
+        for (Post endorsement : post.getEndorsements().values()) {
+
+            // reset its reference post
+            if (!posts.containsValue(endorsement)) {
+                // reference post does not exist
+                throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
+            }
+
+            endorsement.setReferencePost(null);
+        }
+
+        for (Post comment : post.getComments().values()) {
+
+            // reset its reference post
+            if (!posts.containsValue(comment)) {
+                // reference post does not exist
+                throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
+            }
+
+            comment.setReferencePost(null);
+        }
+
+        posts.remove(id);
     }
 
     @Override
     public String showIndividualPost(int id) throws PostIDNotRecognisedException {
+
+        if (!posts.containsKey(id)) {
+
+            //post id is not recognised
+            throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
+        }
+
+
 
         // check if post exists
         if (messages.containsKey(id) || comments.containsKey(id) || endorsements.containsKey(id)) {
@@ -388,8 +350,9 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public StringBuilder showPostChildrenDetails(int id) throws PostIDNotRecognisedException, NotActionablePostException {
-        // TODO Auto-generated method stub
-        return null;
+        if (!messages.containsKey(id) && !comments.containsKey(id) && !endorsements.containsKey(id)) {
+
+        }
     }
 
     @Override
@@ -517,7 +480,7 @@ public class SocialMedia implements SocialMediaPlatform {
     }
 
     public int generatePostId() {
-        return messages.size() + comments.size() + endorsements.size() + 1;
+        return posts.size() + 1;
     }
 
     public Map<Integer, User> getAccounts() {

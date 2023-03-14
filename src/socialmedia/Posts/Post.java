@@ -9,6 +9,7 @@ public class Post  {
     protected User author;
     protected String type;
     protected String message;
+
     protected Post referencePost;
 
     protected HashMap<Integer, Comment> comments = new HashMap<Integer, Comment>();
@@ -53,5 +54,13 @@ public class Post  {
 
     public User getAuthor() {
         return this.author;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setReferencePost(Post post) {
+        this.referencePost = post;
     }
 }
