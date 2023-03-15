@@ -345,6 +345,14 @@ public class SocialMedia implements SocialMediaPlatform {
 
         Post post = posts.get(id);
 
+        StringBuilder result = new StringBuilder();
+
+        result.append(String.format("ID: %d", post.getUniqueId()));
+        result.append(String.format("Account: %s", post.getAuthor().getHandle()));
+        result.append(String.format("No. endorsements: %d | No. comments: %d", post.getEndorsements().size(), post.getComments().size()));
+        result.append(String.format("%s", post.getMessage()));
+
+
     }
 
     @Override
