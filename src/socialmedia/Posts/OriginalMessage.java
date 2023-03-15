@@ -24,8 +24,4 @@ public class OriginalMessage extends Post {
             throw new InvalidPostException("message is too long");
         }
     }
-
-    public void endorseMessage() {
-        // endorse the post
-    }
 }

@@ -369,19 +369,39 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int getTotalEndorsmentPosts() {
-        return endorsements.size();
+        int counter = 0;
+
+        for (Post post : posts.values()) {
+            if (post instanceof Endorsement) {
+                counter ++;
+            } else {
+                // debug
+                System.out.println("somethings wrong with this if statement");
+            }
+        }
+        return counter;
     }
 
     @Override
     public int getTotalCommentPosts() {
-        return comments.size();
+        int counter = 0;
+
+        for (Post post : posts.values()) {
+            if (post instanceof Comment) {
+                counter ++;
+            } else {
+                // debug
+                System.out.println("somethings wrong with this if statement");
+            }
+        }
+        return counter;
     }
 
     @Override
     public int getMostEndorsedPost() {
         Map<Integer, Integer> endorsedPosts = new HashMap<Integer, Integer>();
 
-        for (OriginalMessage post : messages.values()) {
+        for (Post post : posts.values()) {
 
             // check how many endorsements it has
             int size = post.getEndorsements().size();
@@ -436,9 +456,7 @@ public class SocialMedia implements SocialMediaPlatform {
         accountHandles.clear();
 
         // remove posts
-        messages.clear();
-        comments.clear();
-        endorsements.clear();
+        posts.clear();
     }
 
     @Override
@@ -476,9 +494,7 @@ public class SocialMedia implements SocialMediaPlatform {
         accounts = platform.getAccounts();
         accountHandles = platform.getAccountHandles();
 
-        messages = platform.getMessages();
-        comments = platform.getComments();
-        endorsements = platform.getEndorsements();
+        posts = platform.getPosts();
     }
 
     public int generatePostId() {
@@ -493,16 +509,8 @@ public class SocialMedia implements SocialMediaPlatform {
         return accountHandles;
     }
 
-    public Map<Integer, OriginalMessage> getMessages() {
-        return messages;
-    }
-
-    public Map<Integer, Comment> getComments() {
-        return comments;
-    }
-
-    public Map<Integer, Endorsement> getEndorsements() {
-        return endorsements;
+    public Map<Integer, Post> getPosts() {
+        return posts;
     }
 
 

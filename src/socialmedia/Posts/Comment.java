@@ -24,8 +24,4 @@ public class Comment extends Post {
             throw new InvalidPostException("comment is too long");
         }
     }
-
-    public void setReference(Post reference) {
-        this.referencePost = reference;
-    }
 }
