@@ -45,11 +45,15 @@ public class SocialMediaPlatformTestApp {
 
 			// add a comment to this post
 			int commentid = platform.commentPost("my_handle", postid, "this is a comment");
-			System.out.println(platform.showIndividualPost(postid));
+			System.out.println(platform.showIndividualPost(commentid));
 
 			// save the file here
-			platform.savePlatform("saved.txt");
-			platform.loadPlatform("saved.txt");
+//			platform.savePlatform("saved.txt");
+//			platform.loadPlatform("saved.txt");
+
+			// show all posts
+			StringBuilder result = platform.showPostChildrenDetails(1);
+			System.out.print(result);
 
 			// remove account
 			platform.removeAccount(id);
@@ -62,7 +66,7 @@ public class SocialMediaPlatformTestApp {
 		} catch (AccountIDNotRecognisedException e) {
 			assert (false) : "AccountIDNotRecognizedException thrown incorrectly";
 		} catch (HandleNotRecognisedException | InvalidPostException | PostIDNotRecognisedException |
-				 NotActionablePostException | IOException | ClassNotFoundException e) {
+				 NotActionablePostException e) {
 			throw new RuntimeException(e);
 		}
 

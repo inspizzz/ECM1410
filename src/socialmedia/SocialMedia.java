@@ -347,12 +347,32 @@ public class SocialMedia implements SocialMediaPlatform {
 
         StringBuilder result = new StringBuilder();
 
-        result.append(String.format("ID: %d", post.getUniqueId()));
-        result.append(String.format("Account: %s", post.getAuthor().getHandle()));
-        result.append(String.format("No. endorsements: %d | No. comments: %d", post.getEndorsements().size(), post.getComments().size()));
-        result.append(String.format("%s", post.getMessage()));
+        result.append(String.format("ID: %d\n", post.getUniqueId()));
+        result.append(String.format("Account: %s\n", post.getAuthor().getHandle()));
+        result.append(String.format("No. endorsements: %d | No. comments: %d\n", post.getEndorsements().size(), post.getComments().size()));
+        result.append(String.format("%s\n", post.getMessage()));
 
+        // list of children
+        // take elements from the end
+        // add elements to the end if the current has children
+        // will only work if the for loop accepts the updated array
 
+        ArrayList<Post> list = new ArrayList<Post>();
+
+        list.add(post);
+
+        while (list.size() > 0) {
+            Post toCheck = list.get(list.size() - 1);
+            list.remove(list.size() - 1);
+
+            list.addAll(toCheck.getComments().values());
+
+            result.append(String.format(" -> ID: %d\n", toCheck.getUniqueId()));
+            result.append(String.format(" -> Account: %s\n", toCheck.getAuthor().getHandle()));
+            result.append(String.format(" -> No. endorsements: %d | No. comments: %d\n", toCheck.getEndorsements().size(), post.getComments().size()));
+            result.append(String.format(" -> %s\n", toCheck.getMessage()));
+        }
+        return result;
     }
 
     @Override
