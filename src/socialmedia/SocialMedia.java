@@ -433,11 +433,11 @@ public class SocialMedia implements SocialMediaPlatform {
     public int getTotalOriginalPosts() {
         int counter = 0;
 
+        // go over all posts and check if it has an isntance of an original message
         for (Post post : posts.values()) {
             if (post instanceof OriginalMessage) {
                 counter ++;
             } else {
-                // debug
                 System.out.println("somethings wrong with this if statement");
             }
         }
