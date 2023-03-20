@@ -173,25 +173,23 @@ public class SocialMedia implements SocialMediaPlatform {
     public String showAccount(String handle) throws HandleNotRecognisedException {
 
         // check if account with this handle exists
-        if (accountHandles.containsKey(handle)) {
-
-            // begin by grabbing the user
-            User user = accounts.get(accountHandles.get(handle));
-
-            // begin grabbing information
-            int id = user.getId();
-            String description = user.getDescription();
-            int postCount = user.getPostCount();
-            int endorsementCount = User.getEndorsementCount();
-
-            // return the formatted string
-            return String.format(" * ID: %d \n * Handle: %s \n * Description: %s \n * Post count: %d \n * Endorse count: %d", id, handle, description, postCount, endorsementCount);
-
-        } else {
+        if (!accountHandles.containsKey(handle)) {
 
             // handle does not exist
             throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
         }
+
+        // begin by grabbing the user
+        User user = accounts.get(accountHandles.get(handle));
+
+        // begin grabbing information
+        int id = user.getId();
+        String description = user.getDescription();
+        int postCount = user.getPostCount();
+        int endorsementCount = User.getEndorsementCount();
+
+        // return the formatted string
+        return String.format(" * ID: %d \n * Handle: %s \n * Description: %s \n * Post count: %d \n * Endorse count: %d", id, handle, description, postCount, endorsementCount);
     }
 
     @Override
