@@ -70,4 +70,8 @@ public class Post  {
 
         return counter;
     }
+
+    public boolean isEndorseable() {
+        return !this.type.equals("endorsement");
+    }
 }
