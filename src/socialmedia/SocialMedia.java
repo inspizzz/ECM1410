@@ -310,36 +310,43 @@ public class SocialMedia implements SocialMediaPlatform {
 
         // chcek if the post exists
         if (!posts.containsKey(id)) {
-            // error, post id does not exist
+
+            // error, post id does not exist, throw error
             throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
         }
 
-        // get the post
+        // grab the post
         Post post = posts.get(id);
 
-        // remove all references of it from the program
+        // remove all references of endorsements from the program
         for (Post endorsement : post.getEndorsements().values()) {
 
-            // reset its reference post
+            // check if the post endorsement exists
             if (!posts.containsValue(endorsement)) {
-                // reference post does not exist
+
+                // reference post does not exist, throw error
                 throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
             }
 
+            // reset its reference post
             endorsement.setReferencePost(null);
         }
 
+        // remove all references of comments from the program
         for (Post comment : post.getComments().values()) {
 
-            // reset its reference post
+            // check if the post comment exists
             if (!posts.containsValue(comment)) {
-                // reference post does not exist
+
+                // reference post does not exist, throw error
                 throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
             }
 
+            // reset its reference post
             comment.setReferencePost(null);
         }
 
+        // remove reference of the post from storage
         posts.remove(id);
     }
 
