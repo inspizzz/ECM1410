@@ -156,20 +156,17 @@ public class SocialMedia implements SocialMediaPlatform {
     public void updateAccountDescription(String handle, String description) throws HandleNotRecognisedException {
 
         // check if the handle exists
-        if (accountHandles.containsKey(handle)) {
-
-            // grab the user
-            User user = accounts.get(accountHandles.get(handle));
-
-            // set the users description
-            user.setDescription(description);
-
-        } else {
+        if (!accountHandles.containsKey(handle)) {
 
             // account handle does not exist, throw an error
             throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
         }
 
+        // grab the user
+        User user = accounts.get(accountHandles.get(handle));
+
+        // set the users description
+        user.setDescription(description);
     }
 
     @Override
