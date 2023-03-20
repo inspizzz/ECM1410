@@ -463,11 +463,11 @@ public class SocialMedia implements SocialMediaPlatform {
     public int getTotalCommentPosts() {
         int counter = 0;
 
+        // go over all of the posts and check whether it is a comment
         for (Post post : posts.values()) {
             if (post instanceof Comment) {
                 counter ++;
             } else {
-                // debug
                 System.out.println("somethings wrong with this if statement");
             }
         }
