@@ -535,7 +535,6 @@ public class SocialMedia implements SocialMediaPlatform {
             user.clearEndorsements();
         }
 
-
         // remove accounts
         accounts.clear();
         accountHandles.clear();
@@ -546,6 +545,7 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void savePlatform(String filename) throws IOException {
+
         // initialise the output streams
         FileOutputStream fileOut = new FileOutputStream(filename);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -560,6 +560,7 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
+
         // open input stream reader
         FileInputStream fileIn = new FileInputStream(filename);
         ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -578,22 +579,46 @@ public class SocialMedia implements SocialMediaPlatform {
         // load in all of the data into this instance of the class
         accounts = platform.getAccounts();
         accountHandles = platform.getAccountHandles();
-
         posts = platform.getPosts();
     }
 
+    /**
+     * this method generates a unique post id based on the number of
+     * current posts inside of the platform. it will not add a post
+     * into the gap created when another post is deleted.
+     *
+     * @return a unique id that may be used to create a post
+     */
     public int generatePostId() {
         return posts.size() + 1;
     }
 
+    /**
+     * this method gets all accounts in this instance of the class, it
+     * is used when loading the application back into the environment
+     *
+     * @return the accounts variable
+     */
     public Map<Integer, User> getAccounts() {
         return accounts;
     }
 
+    /**
+     * this method gets all accounts in this instance of the class, it
+     * is used when loading the application back into the environment
+     *
+     * @return the accountHandles variable
+     */
     public Map<String, Integer> getAccountHandles() {
         return accountHandles;
     }
 
+    /**
+     * this method gets all accounts in this instance of the class, it
+     * is used when loading the application back into the environment
+     *
+     * @return the posts variable
+     */
     public Map<Integer, Post> getPosts() {
         return posts;
     }
