@@ -23,42 +23,38 @@ public class SocialMedia implements SocialMediaPlatform {
     // create local variables that contain data while the app is running
     public static Map<Integer, User> accounts = new HashMap<Integer, User>();
     public static Map<String, Integer> accountHandles = new HashMap<String, Integer>();
-
-//    public static Map<Integer, OriginalMessage> messages = new HashMap<Integer, OriginalMessage>();
-//    public static Map<Integer, Comment> comments = new HashMap<Integer, Comment>();
-//    public static Map<Integer, Endorsement> endorsements = new HashMap<Integer, Endorsement>();
     public static Map<Integer, Post> posts = new HashMap<Integer, Post>();
 
 
     @Override
     public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
 
-        // perform required checks on the handles and throw any errors that may occurr
-        if (!handle.contains(" ") && handle.length() < 100 && !handle.equals("")) {
-            if (!accountHandles.containsKey(handle)) {
-
-                // generate unique ID
-                int id = accounts.size() + 1;
-
-                // create instance of user
-                User user = new User(id, handle);
-
-                // add user to the accounts and add to account handles
-                accounts.put(id, user);
-                accountHandles.put(handle, id);
-
-                // return the id for later use
-                return id;
-            } else {
-
-                // account handle already exists, throw error
-                throw new IllegalHandleException(String.format("this handle: %s already exists", handle));
-            }
-        } else {
+        // check if the handle is valid
+        if (handle.contains(" ") || handle.length() > 100 || handle.equals("")) {
 
             // invalid account handle, is either empty, contains spaces or too long
             throw new InvalidHandleException(String.format("handle: %s is invalid", handle));
         }
+
+        // check if the handle already exists
+        if (accountHandles.containsKey(handle)) {
+
+            // account handle already exists, throw error
+            throw new IllegalHandleException(String.format("this handle: %s already exists", handle));
+        }
+
+        // generate unique ID
+        int id = accounts.size() + 1;
+
+        // create instance of user
+        User user = new User(id, handle);
+
+        // add user to the accounts and add to account handles
+        accounts.put(id, user);
+        accountHandles.put(handle, id);
+
+        // return the id for later use
+        return id;
     }
 
     @Override
