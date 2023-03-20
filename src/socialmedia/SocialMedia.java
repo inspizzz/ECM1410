@@ -376,29 +376,37 @@ public class SocialMedia implements SocialMediaPlatform {
     @Override
     public StringBuilder showPostChildrenDetails(int id) throws PostIDNotRecognisedException, NotActionablePostException {
 
-        // catch errors
+        // check if the post with id exists
         if (!posts.containsKey(id)) {
-            //post id is not recognised
+
+            //post id is not recognised, throw error
             throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
         }
 
+        // begin string
         StringBuilder result = new StringBuilder();
 
+        // grab the root post
         Post root = posts.get(id);
-        List<Post> list = new ArrayList<>();
 
+        // start the queue
+        List<Post> list = new ArrayList<>();
         list.add(root);
 
+        // begin creating the string, starting with the root post
         result.append(String.format("-> ID: %d\n", id));
         result.append(String.format("-> Account: %s\n", root.getAuthor().getHandle()));
         result.append(String.format("-> No. endorsements: %d | No. comments: %d\n", root.getEndorsements().size(), root.getComments().size()));
         result.append(String.format("-> %s\n", root.getMessage()));
 
+        // do depth first search
         while (list.size() > 0) {
-            // get the last element
+
+            // get the last element in the list
             Post currentPost = list.get(list.size() - 1);
             list.remove(list.size() - 1);
 
+            // add to the string information about the current post
             String added = new String(new char[currentPost.getDepth()]).replace("\0", "\t");
 
             result.append(String.format("%s-> ID: %d\n", added, currentPost.getUniqueId()));
@@ -406,7 +414,7 @@ public class SocialMedia implements SocialMediaPlatform {
             result.append(String.format("%s-> No. endorsements: %d | No. comments: %d\n", added, currentPost.getEndorsements().size(), currentPost.getComments().size()));
             result.append(String.format("%s-> %s\n", added, currentPost.getMessage()));
 
-
+            // add current posts children to the queue
             List<Post> children = new ArrayList<>(currentPost.getComments().values());
             Collections.reverse(children);
             list.addAll(children);
