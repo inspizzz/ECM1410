@@ -353,14 +353,17 @@ public class SocialMedia implements SocialMediaPlatform {
     @Override
     public String showIndividualPost(int id) throws PostIDNotRecognisedException {
 
+        // check if the post with id exists
         if (!posts.containsKey(id)) {
 
-            //post id is not recognised
+            //post id is not recognised, throw error
             throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
         }
 
+        // get the post with id
         Post post = posts.get(id);
 
+        // begin formatting the data
         String data = " * ID: %d\n"
                 + " * Account: %s\n"
                 + " * No. endorsements: %d | No. comments: %d\n"
