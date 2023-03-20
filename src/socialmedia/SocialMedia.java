@@ -497,19 +497,22 @@ public class SocialMedia implements SocialMediaPlatform {
     @Override
     public int getMostEndorsedAccount() {
 
+        // keep track of account and endorsements in a hashmap
         int total;
         Map<Integer, Integer> endorsedUser = new HashMap<Integer, Integer>();
 
         // for all users check how many endorsements it has
         for (User user : accounts.values()) {
+
+            // total for user starts off as 0
             total = 0;
 
-            // check how many endorsements each message has
+            // check how many endorsements each message has and add to total
             for (OriginalMessage message : user.getMessages()) {
                 total += message.getEndorsements().size();
             }
 
-            // check how many endorsements each comment has
+            // check how many endorsements each comment has and add to total
             for (Comment comment : user.getComments()) {
                 total += comment.getEndorsements().size();
             }
@@ -518,6 +521,7 @@ public class SocialMedia implements SocialMediaPlatform {
             endorsedUser.put(total, user.getId());
         }
 
+        // also have no clue what this does
         return endorsedUser.get(Collections.max(endorsedUser.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
     }
 
