@@ -92,15 +92,15 @@ public class SocialMedia implements SocialMediaPlatform {
     public void removeAccount(int id) throws AccountIDNotRecognisedException {
 
         // check if the account id exists inside of the
-        if (accounts.containsKey(id)) {
+        if (!accounts.containsKey(id)) {
 
-            // remove the accounts from both dictionaries
-            accountHandles.remove(accounts.get(id).getHandle());
-            accounts.remove(id);
-
-        } else {
+            // account doesnt exist, throw error
             throw new AccountIDNotRecognisedException(String.format("account with id %d does not exist", id));
         }
+
+        // remove the accounts from both dictionaries
+        accountHandles.remove(accounts.get(id).getHandle());
+        accounts.remove(id);
     }
 
     @Override
