@@ -476,8 +476,11 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int getMostEndorsedPost() {
+
+        // instantiate hashmap to keep track of post id and number of endorsements
         Map<Integer, Integer> endorsedPosts = new HashMap<Integer, Integer>();
 
+        // go over every post
         for (Post post : posts.values()) {
 
             // check how many endorsements it has
@@ -487,6 +490,7 @@ public class SocialMedia implements SocialMediaPlatform {
             endorsedPosts.put(size, post.getUniqueId());
         }
 
+        // i have no clue what this does ...
         return endorsedPosts.get(Collections.max(endorsedPosts.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
     }
 
