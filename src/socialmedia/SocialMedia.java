@@ -424,6 +424,8 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int getNumberOfAccounts() {
+
+        // get the size of the accounts list
         return accounts.size();
     }
 
