@@ -262,31 +262,42 @@ public class SocialMedia implements SocialMediaPlatform {
     @Override
     public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
 
+        // check if the account handle exists
         if (!accountHandles.containsKey(handle)) {
-            // cannot find the user with handle
+
+            // cannot find the user with handle, throw error
             throw new HandleNotRecognisedException(String.format("the handle: %s does not exist", handle));
         }
 
-        User user = accounts.get(accountHandles.get(handle));
-
+        // check if the post id exists
         if (!posts.containsKey(id)) {
-            // cannot find post with id
+
+            // cannot find post with id, throw error
             throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
         }
 
+        // grab the user and the post
+        User user = accounts.get(accountHandles.get(handle));
         Post post = posts.get(id);
 
-        if (post.getType().equals("endorsement")) {
-            // cannot comment this post
+        // check if the post is endorseable
+        if (!post.isEndorseable()) {
+
+            // cannot comment this post as it is an endorsement
             throw new NotActionablePostException("this post cannot be commented");
         }
 
+        // check if the message is valid
         if (message.equals("") || message.length() > 100) {
-            // invalid message
+
+            // invalid message, throw error
             throw new InvalidPostException("the comments message is invalid");
         }
 
+        // create the comment
         Comment comment = new Comment(generatePostId(), post, message, user);
+
+        // add the comment to storage
         posts.put(comment.getUniqueId(), comment);
         user.addComment(comment);
         post.addComment(comment);
