@@ -15,11 +15,6 @@ public class Post  {
     protected HashMap<Integer, Comment> comments = new HashMap<Integer, Comment>();
     protected HashMap<Integer, Endorsement> endorsements = new HashMap<Integer, Endorsement>();
 
-
-
-
-
-
     public Post() {
         System.out.println("created an instance of posts");
     }
@@ -62,5 +57,17 @@ public class Post  {
 
     public void setReferencePost(Post post) {
         this.referencePost = post;
+    }
+
+    public int getDepth() {
+        int counter = 0;
+        Post current = this;
+
+        while (current.referencePost != null) {
+            current = current.referencePost;
+            counter ++;
+        }
+
+        return counter;
     }
 }

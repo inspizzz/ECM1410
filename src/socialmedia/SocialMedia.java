@@ -338,39 +338,41 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public StringBuilder showPostChildrenDetails(int id) throws PostIDNotRecognisedException, NotActionablePostException {
+
+        // catch errors
         if (!posts.containsKey(id)) {
             //post id is not recognised
             throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
         }
 
-        Post post = posts.get(id);
-
         StringBuilder result = new StringBuilder();
 
-        result.append(String.format("ID: %d\n", post.getUniqueId()));
-        result.append(String.format("Account: %s\n", post.getAuthor().getHandle()));
-        result.append(String.format("No. endorsements: %d | No. comments: %d\n", post.getEndorsements().size(), post.getComments().size()));
-        result.append(String.format("%s\n", post.getMessage()));
+        Post root = posts.get(id);
+        List<Post> list = new ArrayList<>();
 
-        // list of children
-        // take elements from the end
-        // add elements to the end if the current has children
-        // will only work if the for loop accepts the updated array
+        list.add(root);
 
-        ArrayList<Post> list = new ArrayList<Post>();
-
-        list.add(post);
+        result.append(String.format("-> ID: %d\n", id));
+        result.append(String.format("-> Account: %s\n", root.getAuthor().getHandle()));
+        result.append(String.format("-> No. endorsements: %d | No. comments: %d\n", root.getEndorsements().size(), root.getComments().size()));
+        result.append(String.format("-> %s\n", root.getMessage()));
 
         while (list.size() > 0) {
-            Post toCheck = list.get(list.size() - 1);
+            // get the last element
+            Post currentPost = list.get(list.size() - 1);
             list.remove(list.size() - 1);
 
-            list.addAll(toCheck.getComments().values());
+            String added = new String(new char[currentPost.getDepth()]).replace("\0", "\t");
 
-            result.append(String.format(" -> ID: %d\n", toCheck.getUniqueId()));
-            result.append(String.format(" -> Account: %s\n", toCheck.getAuthor().getHandle()));
-            result.append(String.format(" -> No. endorsements: %d | No. comments: %d\n", toCheck.getEndorsements().size(), post.getComments().size()));
-            result.append(String.format(" -> %s\n", toCheck.getMessage()));
+            result.append(String.format("%s-> ID: %d\n", added, currentPost.getUniqueId()));
+            result.append(String.format("%s-> Account: %s\n", added, currentPost.getAuthor().getHandle()));
+            result.append(String.format("%s-> No. endorsements: %d | No. comments: %d\n", added, currentPost.getEndorsements().size(), currentPost.getComments().size()));
+            result.append(String.format("%s-> %s\n", added, currentPost.getMessage()));
+
+
+            List<Post> children = new ArrayList<>(currentPost.getComments().values());
+            Collections.reverse(children);
+            list.addAll(children);
         }
         return result;
     }

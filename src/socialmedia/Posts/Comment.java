@@ -24,4 +24,6 @@ public class Comment extends Post {
             throw new InvalidPostException("comment is too long");
         }
     }
+
+
 }

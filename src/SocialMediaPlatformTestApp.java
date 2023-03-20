@@ -41,15 +41,16 @@ public class SocialMediaPlatformTestApp {
 
 			// add the user with a post
 			int postid = platform.createPost("my_handle", "here is this posts message");
-			System.out.println(platform.showIndividualPost(postid));
 
 			// add a comment to this post
-			int commentid = platform.commentPost("my_handle", postid, "this is a comment");
-			System.out.println(platform.showIndividualPost(commentid));
+			int commentid1 = platform.commentPost("my_handle", postid, "comment1 of depth 1");
+			int commentid2 = platform.commentPost("my_handle", postid, "comment2 of depth 1");
 
-			// save the file here
-//			platform.savePlatform("saved.txt");
-//			platform.loadPlatform("saved.txt");
+			int commentid3 = platform.commentPost("my_handle", commentid1, "comment3 of depth 2");
+
+			int commentid4 = platform.commentPost("my_handle", commentid2, "comment4 of depth 2");
+			int commentid5 = platform.commentPost("my_handle", commentid2, "comment5 of depth 2");
+
 
 			// show all posts
 			StringBuilder result = platform.showPostChildrenDetails(1);
