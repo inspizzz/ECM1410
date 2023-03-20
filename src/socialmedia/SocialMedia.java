@@ -59,32 +59,33 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
-        // perform required checks on the handles and throw any errors that may occurr
-        if (!handle.contains(" ") && handle.length() < 100 && !handle.equals("")) {
-            if (!accountHandles.containsKey(handle)) {
 
-                // generate unique ID
-                int id = accounts.size() + 1;
-
-                // create instance of user
-                User user = new User(id, handle, description);
-
-                // add user to the accounts and add to account handles
-                accounts.put(id, user);
-                accountHandles.put(handle, id);
-
-                // return the id for later use
-                return id;
-            } else {
-
-                // account handle already exists, throw error
-                throw new IllegalHandleException(String.format("this handle: %s already exists", handle));
-            }
-        } else {
+        // check if the handle is valid
+        if (handle.contains(" ") || handle.length() > 100 || handle.equals("")) {
 
             // invalid account handle, is either empty, contains spaces or too long
             throw new InvalidHandleException(String.format("handle: %s is invalid", handle));
         }
+
+        // check if the handle already exists
+        if (accountHandles.containsKey(handle)) {
+
+            // account handle already exists, throw error
+            throw new IllegalHandleException(String.format("this handle: %s already exists", handle));
+        }
+
+        // generate unique ID
+        int id = accounts.size() + 1;
+
+        // create instance of user
+        User user = new User(id, handle, description);
+
+        // add user to the accounts and add to account handles
+        accounts.put(id, user);
+        accountHandles.put(handle, id);
+
+        // return the id for later use
+        return id;
     }
 
     @Override
