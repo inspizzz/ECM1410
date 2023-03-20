@@ -91,7 +91,7 @@ public class SocialMedia implements SocialMediaPlatform {
     @Override
     public void removeAccount(int id) throws AccountIDNotRecognisedException {
 
-        // check if the account id exists inside of the
+        // check if the account id exists inside of the list
         if (!accounts.containsKey(id)) {
 
             // account doesnt exist, throw error
@@ -105,15 +105,17 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void removeAccount(String handle) throws HandleNotRecognisedException {
+
+        // check if the account id exists inside of the list
         if (accountHandles.containsKey(handle)) {
 
-            // remove the accounts from both dictionaries
-            accounts.remove(accountHandles.get(handle));
-            accountHandles.remove(handle);
-
-        } else {
+            // account doesnt exist, throw error
             throw new HandleNotRecognisedException(String.format("account with handle %s does not exist", handle));
         }
+
+        // remove the accounts from both dictionaries
+        accounts.remove(accountHandles.get(handle));
+        accountHandles.remove(handle);
     }
 
     @Override
