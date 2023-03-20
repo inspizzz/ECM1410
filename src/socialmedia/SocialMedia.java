@@ -448,11 +448,11 @@ public class SocialMedia implements SocialMediaPlatform {
     public int getTotalEndorsmentPosts() {
         int counter = 0;
 
+        // go over all posts and check if they are instances of endorsements
         for (Post post : posts.values()) {
             if (post instanceof Endorsement) {
                 counter ++;
             } else {
-                // debug
                 System.out.println("somethings wrong with this if statement");
             }
         }
