@@ -107,7 +107,7 @@ public class SocialMedia implements SocialMediaPlatform {
     public void removeAccount(String handle) throws HandleNotRecognisedException {
 
         // check if the account id exists inside of the list
-        if (accountHandles.containsKey(handle)) {
+        if (!accountHandles.containsKey(handle)) {
 
             // account doesnt exist, throw error
             throw new HandleNotRecognisedException(String.format("account with handle %s does not exist", handle));
@@ -120,37 +120,36 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void changeAccountHandle(String oldHandle, String newHandle) throws HandleNotRecognisedException, IllegalHandleException, InvalidHandleException {
-        // perform checks on the new handle
-        if (!newHandle.contains(" ") && newHandle.length() < 100 && !newHandle.equals("")) {
 
-            // if the new account handle does not already exist
-            if (!accountHandles.containsKey(newHandle)) {
-
-                // if the handle to change exists
-                if (accountHandles.containsKey(oldHandle)) {
-
-                    // change the accounts handle
-                    User user = accounts.get(accountHandles.get(oldHandle));
-                    user.setHandle(newHandle);
-
-                    // update new handle in dictionary
-                    accountHandles.remove(oldHandle);
-                    accountHandles.put(newHandle, user.getId());
-
-                } else {
-                    throw new HandleNotRecognisedException(String.format("the handle to change: %s does not exist", oldHandle));
-                }
-            } else {
-
-                // handle already exists and cannot
-                throw new IllegalHandleException(String.format("this handle: %s already exists", newHandle));
-            }
-        } else {
+        // check the new handle
+        if (newHandle.contains(" ") || newHandle.length() > 100 || newHandle.equals("")) {
 
             // invalid account handle, is either empty, contains spaces or too long
             throw new InvalidHandleException(String.format("handle: %s is invalid", newHandle));
         }
 
+        // if the new account handle does not already exist
+        if (!accountHandles.containsKey(newHandle)) {
+
+            // handle already exists and cannot
+            throw new IllegalHandleException(String.format("this handle: %s already exists", newHandle));
+        }
+
+        // if the handle to change doesnt exist
+        if (!accountHandles.containsKey(oldHandle)) {
+
+            // handle to change does not exist, throw error
+            throw new HandleNotRecognisedException(String.format("the handle to change: %s does not exist", oldHandle));
+        }
+
+
+        // change the accounts handle
+        User user = accounts.get(accountHandles.get(oldHandle));
+        user.setHandle(newHandle);
+
+        // update new handle in dictionary
+        accountHandles.remove(oldHandle);
+        accountHandles.put(newHandle, user.getId());
     }
 
     @Override
