@@ -188,22 +188,34 @@ public class SocialMedia implements SocialMediaPlatform {
         int postCount = user.getPostCount();
         int endorsementCount = User.getEndorsementCount();
 
-        // return the formatted string
+        // format the string and return
         return String.format(" * ID: %d \n * Handle: %s \n * Description: %s \n * Post count: %d \n * Endorse count: %d", id, handle, description, postCount, endorsementCount);
     }
 
     @Override
     public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
+
+        // check if the account handle exists
         if (!accountHandles.containsKey(handle)) {
+
+            // account handle does not exist, ahhhhhhhhh, the world is burning!
             throw new HandleNotRecognisedException(String.format("handle: %s not recognized", handle));
         }
 
+        // check if the message is valid
         if (message.equals("") || message.length() > 100) {
+
+            // message is not valid, ahhhhhhhhh
             throw new InvalidPostException("this message is invalid");
         }
 
+        // grab the user
         User user = accounts.get(accountHandles.get(handle));
+
+        // create the message
         OriginalMessage post = new OriginalMessage(generatePostId(), accounts.get(accountHandles.get(handle)), message);
+
+        // add the post to storage
         posts.put(post.getUniqueId(), post);
         user.addMessage(post);
 
