@@ -239,7 +239,8 @@ public class SocialMedia implements SocialMediaPlatform {
             throw new PostIDNotRecognisedException(String.format("the post with id %d does not exist", id));
         }
 
-        // grab the post
+        // grab the post and user
+        User user = accounts.get(accountHandles.get(handle));
         Post post = posts.get(id);
 
         // check if the post is endorseable
@@ -254,6 +255,7 @@ public class SocialMedia implements SocialMediaPlatform {
 
         // add it to storage
         post.addEndorsement(endorsement);
+
         posts.put(endorsement.getUniqueId(), endorsement);
 
         return endorsement.getUniqueId();
