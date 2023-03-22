@@ -255,7 +255,7 @@ public class SocialMedia implements SocialMediaPlatform {
 
         // add it to storage
         post.addEndorsement(endorsement);
-
+        user.addEndorsement(endorsement);
         posts.put(endorsement.getUniqueId(), endorsement);
 
         return endorsement.getUniqueId();

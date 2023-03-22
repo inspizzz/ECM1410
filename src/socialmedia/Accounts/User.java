@@ -135,20 +135,40 @@ public class User implements Serializable {
     }
 
     /**
+     *  add an endorsement to the user, this would be called when this user
+     *  has posted an endorsement
      *
+     * @param endorsement the endorsement that the user has posted
      */
-    public void addEndorsement() {
-
+    public void addEndorsement(Endorsement endorsement) {
+        endorsements.add(endorsement);
     }
 
+    /**
+     * returns all endorsements that the user has posted
+     *
+     * @return an arraylist of all endorsements the user has posted
+     */
     public ArrayList<Endorsement> getEndorsements() {
         return endorsements;
     }
 
+    /**
+     * returns the number of posts that the user has posted in total
+     *
+     * @return the total number of messages, comments and endorsements
+     */
     public int getPostCount() {
         return messages.size() + comments.size() + endorsements.size();
     }
 
+    /**
+     * get the total number of endorsements that the users posts
+     * that can be endorsed contains, this is both messages and
+     * comments
+     *
+     * @return the number of endorsements the users posts contain
+     */
     public static int getEndorsementCount() {
         // posts can contain endorsements, count up all of them
         // check the messages and comments as endorsements cannot endorse endorsements
@@ -170,14 +190,23 @@ public class User implements Serializable {
         return count;
     }
 
+    /**
+     * clear the messages of the user
+     */
     public void clearMessages() {
         messages.clear();
     }
 
+    /**
+     * clear the users comments
+     */
     public void clearComments() {
         comments.clear();
     }
 
+    /**
+     * clear the users endoresements
+     */
     public void clearEndorsements() {
         endorsements.clear();
     }
