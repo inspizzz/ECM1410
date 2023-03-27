@@ -14,8 +14,10 @@ public class Post implements MiniPost {
 
     protected Post referencePost;
 
+
     protected HashMap<Integer, Comment> comments = new HashMap<Integer, Comment>();
     protected HashMap<Integer, Endorsement> endorsements = new HashMap<Integer, Endorsement>();
+
 
     public Post() {
         System.out.println("created an instance of posts");

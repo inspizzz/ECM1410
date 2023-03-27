@@ -6,6 +6,7 @@ import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.OriginalMessage;
 import socialmedia.Posts.Post;
 
+
 import java.io.*;
 
 import java.util.*;
@@ -547,7 +548,6 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void savePlatform(String filename) throws IOException {
-
         // initialise the output streams
         FileOutputStream fileOut = new FileOutputStream(filename);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
