@@ -30,3 +30,4 @@ public class Comment extends Post {
         this.referencePost = reference;
     }
 }
+

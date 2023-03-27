@@ -6,7 +6,10 @@ import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.OriginalMessage;
 import socialmedia.Posts.Post;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
 import java.util.*;
 
 /**
@@ -477,13 +480,25 @@ public class SocialMedia implements SocialMediaPlatform {
 
     @Override
     public void savePlatform(String filename) throws IOException {
+        // grab variables from this file, posts and users then place them into a file
+        FileOutputStream fileStream = new FileOutputStream(filename);
+        ObjectOutputStream objStream = new ObjectOutputStream(fileStream);
+        objStream.writeObject(accounts);
+        objStream.writeObject(accountHandles);
+        objStream.writeObject(messages);
+        objStream.writeObject(comments);
+        objStream.writeObject(endorsements);
+        objStream.close();
+
 
 
     }
 
     @Override
     public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
-        // TODO Auto-generated method stub
+        // load variables from the file into the woprkspace
+    
+
 
     }
 
