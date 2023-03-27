@@ -478,7 +478,14 @@ public class SocialMedia implements SocialMediaPlatform {
     }
 
     @Override
-    public int getMostEndorsedPost() {
+    public int getMostEndorsedPost() throws NoPostsRegisteredException {
+
+        // avoid performing this task when there are no posts registered
+        if (posts.size() == 0) {
+
+            // throw exception
+            throw new NoPostsRegisteredException("this action may not be performed as there are no posts registered");
+        }
 
         // instantiate hashmap to keep track of post id and number of endorsements
         Map<Integer, Integer> endorsedPosts = new HashMap<Integer, Integer>();
@@ -498,7 +505,14 @@ public class SocialMedia implements SocialMediaPlatform {
     }
 
     @Override
-    public int getMostEndorsedAccount() {
+    public int getMostEndorsedAccount() throws NoAccountsRegisteredException {
+
+        // avoid performing this task when there are no accounts registered
+        if (accounts.size() == 0) {
+
+            // throw error
+            throw new NoAccountsRegisteredException("this action may not be performed as there are no accounts registered");
+        }
 
         // keep track of account and endorsements in a hashmap
         int total;

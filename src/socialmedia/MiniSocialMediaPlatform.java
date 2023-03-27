@@ -283,7 +283,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 * 
 	 * @return the ID of the most popular post.
 	 */
-	int getMostEndorsedPost();
+	int getMostEndorsedPost() throws NoPostsRegisteredException;
 
 	/**
 	 * This method identifies and returns the account with the most number of
@@ -291,7 +291,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 * 
 	 * @return the ID of the most popular account.
 	 */
-	int getMostEndorsedAccount();
+	int getMostEndorsedAccount() throws NoAccountsRegisteredException;
 
 	// End Analytics-related methods ****************************************
 

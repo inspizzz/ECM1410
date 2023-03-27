@@ -15,3 +15,49 @@ can assume that the description passed is legal.
 
 // no need for external libraries, start system then empty.
 // mess around with java packages and setup a database on system.
+
+
+TODO
+comment comments
+comment endorsements
+comment original messages
+comment posts
+
+
+
+package socialmedia;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+/**
+ * BadSocialMedia is a minimally compiling, but non-functioning implementor of
+ * the SocialMediaPlatform interface.
+ *
+ * @author Diogo Pacheco
+ * @version 1.0
+ */
+
+public int createAccount(String handle)                                                                                 // works
+public int createAccount(String handle, String description)
+public void removeAccount(int id)
+public void removeAccount(String handle)
+public void changeAccountHandle(String oldHandle, String newHandle)
+public void updateAccountDescription(String handle, String description)
+public String showAccount(String handle)
+public int createPost(String handle, String message)
+public int endorsePost(String handle, int id)
+public int commentPost(String handle, int id, String message)
+public void deletePost(int id)
+public String showIndividualPost(int id)
+public StringBuilder showPostChildrenDetails(int id)
+public int getNumberOfAccounts()
+public int getTotalOriginalPosts()
+public int getTotalEndorsmentPosts()
+public int getTotalCommentPosts()
+public int getMostEndorsedPost()
+public int getMostEndorsedAccount()
+public void erasePlatform()
+public void savePlatform(String filename)
+public void loadPlatform(String filename)

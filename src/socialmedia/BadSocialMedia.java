@@ -134,21 +134,11 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	@Override
 	public void erasePlatform() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void savePlatform(String filename) throws IOException {
 		// TODO Auto-generated method stub
-		ObjectOutputStream fileStream = null
-		fileStream = new ObjectOutputStream((new FileOutputStream((filename));
-		fileStream.writeObject(accountInstance);
-		fileStream.writeObject(showAccount(commentPost());
-		fileStream.close();
-
-
-
-
 	}
 
 	@Override

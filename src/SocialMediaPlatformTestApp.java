@@ -29,27 +29,33 @@ public class SocialMediaPlatformTestApp {
 		assert (platform.getTotalCommentPosts() == 0) : "Innitial SocialMediaPlatform not empty as required.";
 		assert (platform.getTotalEndorsmentPosts() == 0) : "Innitial SocialMediaPlatform not empty as required.";
 
-		Integer id;
+
 		try {
 
-			// create a user
-			id = platform.createAccount("my_handle", "this is the description");
-			System.out.println(platform.showAccount("my_handle"));
+			// create some users
+			int user1 = platform.createAccount("user1", "this is the description");
+			int user2 = platform.createAccount("user2", "this is the description");
+			int user3 = platform.createAccount("user3", "this is the description");
+			assert (platform.getNumberOfAccounts() == 3) : "number of accounts registered in the system does not match";
 
-			// check the user was created
-			assert (platform.getNumberOfAccounts() == 1) : "number of accounts registered in the system does not match";
+			// create some posts
+			int post1 = platform.createPost("user1", "here is this posts message");
+			int post2 = platform.createPost("user1", "here is this posts message");
+			int post3 = platform.createPost("user1", "here is this posts message");
 
-			// add the user with a post
-			int postid = platform.createPost("my_handle", "here is this posts message");
+			int post4 = platform.createPost("user2", "here is this posts message");
+			int post5 = platform.createPost("user2", "here is this posts message");
 
-			// add a comment to this post
-			int commentid1 = platform.commentPost("my_handle", postid, "comment1 of depth 1");
-			int commentid2 = platform.commentPost("my_handle", postid, "comment2 of depth 1");
+			int post6 = platform.createPost("user3", "here is this posts message");
 
-			int commentid3 = platform.commentPost("my_handle", commentid1, "comment3 of depth 2");
+			// add comments to users posts
+			int comment1User1 = platform.commentPost("user1", post1, "comment1 of depth 1");
+			int commen2tUser1 = platform.commentPost("user1", post1, "comment2 of depth 1");
+			int commen3tUser1 = platform.commentPost("user1", comment1User1, "comment3 of depth 2");
+			int commen4tUser1 = platform.commentPost("user1", commen2tUser1, "comment4 of depth 2");
+			int commen5tUser1 = platform.commentPost("user1", commen2tUser1, "comment5 of depth 2");
 
-			int commentid4 = platform.commentPost("my_handle", commentid2, "comment4 of depth 2");
-			int commentid5 = platform.commentPost("my_handle", commentid2, "comment5 of depth 2");
+			assert (platform.get)
 
 
 			// show all posts
