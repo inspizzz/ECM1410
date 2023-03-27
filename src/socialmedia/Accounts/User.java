@@ -1,6 +1,5 @@
 package socialmedia.Accounts;
 
-import socialmedia.InvalidPostException;
 import socialmedia.Posts.Comment;
 import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.OriginalMessage;
@@ -20,8 +19,8 @@ public class User implements Serializable {
     /**
      * create an instance of a user using an id and handle
      *
-     * @param id
-     * @param handle
+     * @param id the id of user
+     * @param handle a string that references the user
      */
     public User(int id, String handle) {
         this.userId = id;
@@ -31,9 +30,9 @@ public class User implements Serializable {
     /**
      * create an instance of a user using an id and handle and description
      *
-     * @param id
-     * @param handle
-     * @param description
+     * @param id the id of user
+     * @param handle a string that references the user
+     * @param description a description
      */
     public User(int id, String handle, String description) {
         this.userId = id;

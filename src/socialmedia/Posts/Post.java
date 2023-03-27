@@ -1,10 +1,12 @@
 package socialmedia.Posts;
 
 import socialmedia.Accounts.User;
+import socialmedia.InvalidPostException;
+import socialmedia.Posts.interfaces.MiniPost;
 
 import java.util.HashMap;
 
-public class Post  {
+public class Post implements MiniPost {
     protected int uniqueId;
     protected User author;
     protected String type;
@@ -57,6 +59,14 @@ public class Post  {
 
     public void setReferencePost(Post post) {
         this.referencePost = post;
+    }
+
+    public void setMessage(String message) throws InvalidPostException {
+        if (message.length() < 100) {
+            this.message = message;
+        } else {
+            throw new InvalidPostException("message is too long");
+        }
     }
 
     public int getDepth() {

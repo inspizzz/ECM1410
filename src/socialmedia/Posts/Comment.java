@@ -1,10 +1,9 @@
 package socialmedia.Posts;
 
 import socialmedia.Accounts.User;
-import socialmedia.InvalidPostException;
+import socialmedia.Posts.interfaces.MiniComment;
 
-public class Comment extends Post {
-
+public class Comment extends Post implements MiniComment {
     public Comment(int id, Post referenceMessage, String comment, User author) {
         this.uniqueId = id;
         this.referencePost = referenceMessage;
@@ -12,18 +11,4 @@ public class Comment extends Post {
         this.type = "comment";
         this.message = comment;
     }
-
-    public String getComment() {
-        return this.message;
-    }
-
-    public void setComment(String newComment) throws InvalidPostException {
-        if (newComment.length() < 100) {
-            this.message = newComment;
-        } else {
-            throw new InvalidPostException("comment is too long");
-        }
-    }
-
-
 }
