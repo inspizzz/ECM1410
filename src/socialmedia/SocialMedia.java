@@ -130,7 +130,7 @@ public class SocialMedia implements SocialMediaPlatform {
         }
 
         // if the new account handle does not already exist
-        if (!accountHandles.containsKey(newHandle)) {
+        if (accountHandles.containsKey(newHandle)) {
 
             // handle already exists and cannot
             throw new IllegalHandleException(String.format("this handle: %s already exists", newHandle));
@@ -400,7 +400,7 @@ public class SocialMedia implements SocialMediaPlatform {
         result.append(String.format("-> ID: %d\n", id));
         result.append(String.format("-> Account: %s\n", root.getAuthor().getHandle()));
         result.append(String.format("-> No. endorsements: %d | No. comments: %d\n", root.getEndorsements().size(), root.getComments().size()));
-        result.append(String.format("-> %s\n", root.getMessage()));
+        result.append(String.format("-> %s\n\n", root.getMessage()));
 
         // do depth first search
         while (list.size() > 0) {

@@ -20,7 +20,7 @@ public class Post implements MiniPost {
 
 
     public Post() {
-        System.out.println("created an instance of posts");
+        //
     }
 
     public HashMap<Integer, Comment> getComments() {

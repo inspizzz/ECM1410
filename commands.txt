@@ -39,19 +39,19 @@ import java.io.ObjectOutputStream;
  * @version 1.0
  */
 
-public int createAccount(String handle)                                                                                 // works
-public int createAccount(String handle, String description)
-public void removeAccount(int id)
-public void removeAccount(String handle)
-public void changeAccountHandle(String oldHandle, String newHandle)
-public void updateAccountDescription(String handle, String description)
-public String showAccount(String handle)
-public int createPost(String handle, String message)
+ public int createAccount(String handle)                                                                                 // works
+ public int createAccount(String handle, String description)
+ public void removeAccount(int id)
+ public void removeAccount(String handle)
+ public void changeAccountHandle(String oldHandle, String newHandle)
+ public void updateAccountDescription(String handle, String description)
+ public String showAccount(String handle)
+ public int createPost(String handle, String message)
 public int endorsePost(String handle, int id)
-public int commentPost(String handle, int id, String message)
+ public int commentPost(String handle, int id, String message)
 public void deletePost(int id)
-public String showIndividualPost(int id)
-public StringBuilder showPostChildrenDetails(int id)
+ public String showIndividualPost(int id)
+ public StringBuilder showPostChildrenDetails(int id)
 public int getNumberOfAccounts()
 public int getTotalOriginalPosts()
 public int getTotalEndorsmentPosts()
