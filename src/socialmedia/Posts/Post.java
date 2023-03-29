@@ -4,9 +4,10 @@ import socialmedia.Accounts.User;
 import socialmedia.InvalidPostException;
 import socialmedia.Posts.interfaces.MiniPost;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Post implements MiniPost {
+public class Post implements MiniPost, Serializable {
     protected int uniqueId;
     protected User author;
     protected String type;
@@ -20,7 +21,6 @@ public class Post implements MiniPost {
 
 
     public Post() {
-        //
     }
 
     public HashMap<Integer, Comment> getComments() {

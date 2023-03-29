@@ -20,11 +20,11 @@ import java.util.*;
  * @author Wiktor Wiejak
  * @version 1.0
  */
-public class SocialMedia implements SocialMediaPlatform {
+public class SocialMedia implements SocialMediaPlatform, Serializable {
     // create local variables that contain data while the app is running
-    public static Map<Integer, User> accounts = new HashMap<Integer, User>();
-    public static Map<String, Integer> accountHandles = new HashMap<String, Integer>();
-    public static Map<Integer, Post> posts = new HashMap<Integer, Post>();
+    public Map<Integer, User> accounts = new HashMap<Integer, User>();
+    public Map<String, Integer> accountHandles = new HashMap<String, Integer>();
+    public Map<Integer, Post> posts = new HashMap<Integer, Post>();
 
 
     @Override
@@ -251,6 +251,18 @@ public class SocialMedia implements SocialMediaPlatform {
             throw new NotActionablePostException("this post cannot be endorsed");
         }
 
+        // check if the user has already endorsed this post
+        for (Endorsement endorsement : post.getEndorsements().values()) {
+            if (endorsement.getAuthor().equals(accounts.get(accountHandles.get(handle)))) {
+
+                // this user has already endorsed this post
+                throw new NotActionablePostException("already endorsed this post");
+            }
+        }
+
+
+
+
         // create object of endorsement
         Endorsement endorsement = new Endorsement(generatePostId(), accounts.get(accountHandles.get(handle)), post);
 
@@ -439,9 +451,7 @@ public class SocialMedia implements SocialMediaPlatform {
         // go over all posts and check if it has an isntance of an original message
         for (Post post : posts.values()) {
             if (post instanceof OriginalMessage) {
-                counter ++;
-            } else {
-                System.out.println("somethings wrong with this if statement");
+                counter++;
             }
         }
         return counter;
@@ -455,8 +465,6 @@ public class SocialMedia implements SocialMediaPlatform {
         for (Post post : posts.values()) {
             if (post instanceof Endorsement) {
                 counter ++;
-            } else {
-                System.out.println("somethings wrong with this if statement");
             }
         }
         return counter;
@@ -470,8 +478,6 @@ public class SocialMedia implements SocialMediaPlatform {
         for (Post post : posts.values()) {
             if (post instanceof Comment) {
                 counter ++;
-            } else {
-                System.out.println("somethings wrong with this if statement");
             }
         }
         return counter;
@@ -487,8 +493,9 @@ public class SocialMedia implements SocialMediaPlatform {
             throw new NoPostsRegisteredException("this action may not be performed as there are no posts registered");
         }
 
-        // instantiate hashmap to keep track of post id and number of endorsements
-        Map<Integer, Integer> endorsedPosts = new HashMap<Integer, Integer>();
+        // instantiate variables to keep track of post id and number of endorsements
+        int currentPostId = -1;
+        int currentMaxEndorsement = -1;
 
         // go over every post
         for (Post post : posts.values()) {
@@ -496,12 +503,16 @@ public class SocialMedia implements SocialMediaPlatform {
             // check how many endorsements it has
             int size = post.getEndorsements().size();
 
-            // add to the hashmap
-            endorsedPosts.put(size, post.getUniqueId());
+            // update if larger than current largest
+            if (size > currentMaxEndorsement) {
+                currentPostId = post.getUniqueId();
+                currentMaxEndorsement = size;
+            }
+//             debug
+//            System.out.printf("%d : %s%n", post.getUniqueId(), size);
         }
 
-        // i have no clue what this does ...
-        return endorsedPosts.get(Collections.max(endorsedPosts.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
+        return currentPostId;
     }
 
     @Override
@@ -566,7 +577,7 @@ public class SocialMedia implements SocialMediaPlatform {
         FileOutputStream fileOut = new FileOutputStream(filename);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
-        // for every user serialising it
+        // serialise the whole socialmedia class
         out.writeObject(this);
 
         // close connections
@@ -588,9 +599,8 @@ public class SocialMedia implements SocialMediaPlatform {
         in.close();
         fileIn.close();
 
-
-        System.out.println("Deserialized platform...");
-        System.out.println("description: " + platform.getNumberOfAccounts());
+        System.out.println(platform);
+        System.out.println("description: " + platform.getAccounts());
 
         // load in all of the data into this instance of the class
         accounts = platform.getAccounts();
@@ -638,6 +648,4 @@ public class SocialMedia implements SocialMediaPlatform {
     public Map<Integer, Post> getPosts() {
         return posts;
     }
-
-
 }

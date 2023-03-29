@@ -1,14 +1,17 @@
 package socialmedia.Posts;
 
 import socialmedia.Accounts.User;
-import socialmedia.InvalidPostException;
 import socialmedia.Posts.interfaces.MiniOriginalMessage;
 
-public class OriginalMessage extends Post implements MiniOriginalMessage {
-    public OriginalMessage(int id, User author, String message) throws InvalidPostException {
+import java.io.Serializable;
+
+public class OriginalMessage extends Post implements MiniOriginalMessage, Serializable {
+    public OriginalMessage(int id, User author, String message) {
         this.uniqueId = id;
         this.author = author;
         this.type = "message";
         this.message = message;
+
+        System.out.println("creating post with id: " + uniqueId);
     }
 }

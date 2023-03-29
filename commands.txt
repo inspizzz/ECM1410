@@ -1,7 +1,7 @@
-// in the src folder
+// in the src folder to compile
 javac -cp .:../bin/ -d ../bin SocialMediaPlatformTestApp.java
 
-// then in the bin folder
+// then in the bin folder to run
 java -ea SocialMediaPlatformTestApp
 
 
@@ -47,17 +47,19 @@ import java.io.ObjectOutputStream;
  public void updateAccountDescription(String handle, String description)
  public String showAccount(String handle)
  public int createPost(String handle, String message)
-public int endorsePost(String handle, int id)
+ public int endorsePost(String handle, int id)
  public int commentPost(String handle, int id, String message)
-public void deletePost(int id)
+ public void deletePost(int id)
  public String showIndividualPost(int id)
  public StringBuilder showPostChildrenDetails(int id)
-public int getNumberOfAccounts()
-public int getTotalOriginalPosts()
-public int getTotalEndorsmentPosts()
-public int getTotalCommentPosts()
+ public int getNumberOfAccounts()
+ public int getTotalOriginalPosts()
+ public int getTotalEndorsmentPosts()
+ public int getTotalCommentPosts()
+
 public int getMostEndorsedPost()
 public int getMostEndorsedAccount()
-public void erasePlatform()
-public void savePlatform(String filename)
+ public void erasePlatform()
+
+ public void savePlatform(String filename)
 public void loadPlatform(String filename)
