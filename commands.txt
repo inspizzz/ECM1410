@@ -39,7 +39,7 @@ import java.io.ObjectOutputStream;
  * @version 1.0
  */
 
- public int createAccount(String handle)                                                                                 // works
+ public int createAccount(String handle)
  public int createAccount(String handle, String description)
  public void removeAccount(int id)
  public void removeAccount(String handle)
@@ -57,9 +57,9 @@ import java.io.ObjectOutputStream;
  public int getTotalEndorsmentPosts()
  public int getTotalCommentPosts()
 
-public int getMostEndorsedPost()
-public int getMostEndorsedAccount()
+ public int getMostEndorsedPost()
+ public int getMostEndorsedAccount()
  public void erasePlatform()
 
  public void savePlatform(String filename)
-public void loadPlatform(String filename)
+ public void loadPlatform(String filename)

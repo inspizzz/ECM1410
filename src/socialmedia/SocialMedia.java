@@ -143,7 +143,6 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
             throw new HandleNotRecognisedException(String.format("the handle to change: %s does not exist", oldHandle));
         }
 
-
         // change the accounts handle
         User user = accounts.get(accountHandles.get(oldHandle));
         user.setHandle(newHandle);
@@ -259,9 +258,6 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
                 throw new NotActionablePostException("already endorsed this post");
             }
         }
-
-
-
 
         // create object of endorsement
         Endorsement endorsement = new Endorsement(generatePostId(), accounts.get(accountHandles.get(handle)), post);
@@ -434,6 +430,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
             Collections.reverse(children);
             list.addAll(children);
         }
+
         return result;
     }
 
@@ -446,6 +443,8 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
 
     @Override
     public int getTotalOriginalPosts() {
+
+        // store the number of original posts
         int counter = 0;
 
         // go over all posts and check if it has an isntance of an original message
@@ -454,11 +453,14 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
                 counter++;
             }
         }
+
         return counter;
     }
 
     @Override
     public int getTotalEndorsmentPosts() {
+
+        // store the number of endorsement posts
         int counter = 0;
 
         // go over all posts and check if they are instances of endorsements
@@ -467,11 +469,14 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
                 counter ++;
             }
         }
+
         return counter;
     }
 
     @Override
     public int getTotalCommentPosts() {
+
+        // store the number of comment posts
         int counter = 0;
 
         // go over all of the posts and check whether it is a comment
@@ -480,6 +485,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
                 counter ++;
             }
         }
+
         return counter;
     }
 
@@ -508,8 +514,6 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
                 currentPostId = post.getUniqueId();
                 currentMaxEndorsement = size;
             }
-//             debug
-//            System.out.printf("%d : %s%n", post.getUniqueId(), size);
         }
 
         return currentPostId;
@@ -525,9 +529,10 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
             throw new NoAccountsRegisteredException("this action may not be performed as there are no accounts registered");
         }
 
-        // keep track of account and endorsements in a hashmap
+        // keep track of account and endorsements
         int total;
-        Map<Integer, Integer> endorsedUser = new HashMap<Integer, Integer>();
+        int currentAccount = -1;
+        int currentMax = -1;
 
         // for all users check how many endorsements it has
         for (User user : accounts.values()) {
@@ -546,11 +551,13 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
             }
 
             // update the users total linking it to the users id
-            endorsedUser.put(total, user.getId());
+            if (total > currentMax) {
+                currentAccount = user.getId();
+                currentMax = total;
+            }
         }
 
-        // also have no clue what this does
-        return endorsedUser.get(Collections.max(endorsedUser.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
+        return currentAccount;
     }
 
     @Override
@@ -573,6 +580,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
 
     @Override
     public void savePlatform(String filename) throws IOException {
+
         // initialise the output streams
         FileOutputStream fileOut = new FileOutputStream(filename);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -598,9 +606,6 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
         // close connection
         in.close();
         fileIn.close();
-
-        System.out.println(platform);
-        System.out.println("description: " + platform.getAccounts());
 
         // load in all of the data into this instance of the class
         accounts = platform.getAccounts();

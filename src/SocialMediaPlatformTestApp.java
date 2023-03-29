@@ -222,6 +222,16 @@ public class SocialMediaPlatformTestApp {
 			System.out.println("[SYSTEM] -> Getting most endorsed post Passed");
 
 
+			// get most endorsed post
+			System.out.println("\n\n[SYSTEM] -> Getting most endorsed post");
+
+			int accountId = platform.getMostEndorsedAccount();
+
+			System.out.println("the most endorsed post is the account with id " + accountId);
+
+			System.out.println("[SYSTEM] -> Getting most endorsed post Passed");
+
+
 		} catch (IllegalHandleException e) {
 			System.out.println(e);
 			assert (false) : "IllegalHandleException thrown incorrectly";
@@ -235,7 +245,8 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "AccountIDNotRecognizedException thrown incorrectly";
 
 		} catch (HandleNotRecognisedException | InvalidPostException | PostIDNotRecognisedException |
-				 NotActionablePostException | IOException | ClassNotFoundException | NoPostsRegisteredException e) {
+				 NotActionablePostException | IOException | ClassNotFoundException | NoPostsRegisteredException |
+				 NoAccountsRegisteredException e) {
 			System.out.println(e);
 			throw new RuntimeException(e);
 
