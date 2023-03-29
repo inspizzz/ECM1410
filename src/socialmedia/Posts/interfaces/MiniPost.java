@@ -7,7 +7,20 @@ import socialmedia.Posts.Post;
 
 import java.util.HashMap;
 
+/**
+ * this is the post class, every post extends this
+ * class and it contains the key functionality that
+ * changes and modifies aspects of the post such as
+ * its unique id and type as well as whether it is
+ * endorseable or not.
+ */
 public interface MiniPost {
+
+    /**
+     * get the comments that this post is associated to
+     *
+     * @return the hashmap of comment id's
+     */
     public HashMap<Integer, Comment> getComments();
 
     public void addComment(Comment comment);

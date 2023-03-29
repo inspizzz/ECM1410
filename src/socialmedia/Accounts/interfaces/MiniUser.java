@@ -7,6 +7,12 @@ import socialmedia.Posts.OriginalMessage;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * A User class to keep all data about the user, including
+ * functions that change and modify this data. Each user is
+ * given their own unique id and handle, as well as an
+ * optional description
+ */
 public interface MiniUser {
     /**
      * get the id of the user
