@@ -3,6 +3,9 @@ package socialmedia;
 /**
  * when something function should not be called whenever there
  * is no users currently registered in the application
+ *
+ * @author Wiktor Wiejak
+ * @version 1.0
  */
 public class NoAccountsRegisteredException extends Exception {
 
