@@ -13,6 +13,9 @@ import java.util.HashMap;
  * changes and modifies aspects of the post such as
  * its unique id and type as well as whether it is
  * endorseable or not.
+ *
+ * @author Wiktor Wiejak
+ * @version 1.0
  */
 public interface MiniPost {
 

@@ -12,6 +12,9 @@ import java.util.ArrayList;
  * functions that change and modify this data. Each user is
  * given their own unique id and handle, as well as an
  * optional description
+ *
+ * @author Wiktor Wiejak
+ * @version 1.0
  */
 public interface MiniUser {
     /**

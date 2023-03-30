@@ -5,6 +5,9 @@ package socialmedia.Posts.interfaces;
  * class. It is used to identify certain posts
  * as original messages and differentiate them from other
  * types of posts
+ *
+ * @author Wiktor Wiejak
+ * @version 1.0
  */
 public interface MiniOriginalMessage {
 }
