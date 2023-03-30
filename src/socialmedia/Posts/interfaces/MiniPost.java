@@ -15,7 +15,7 @@ import java.util.HashMap;
  * endorseable or not.
  *
  * @author Wiktor Wiejak
- * @version 1.0
+ * @version 5.3
  */
 public interface MiniPost {
 

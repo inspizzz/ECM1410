@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * optional description
  *
  * @author Wiktor Wiejak
- * @version 1.0
+ * @version 2.9
  */
 public interface MiniUser {
     /**
