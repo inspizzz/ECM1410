@@ -2,6 +2,8 @@ package socialmedia.Posts.interfaces;
 
 import socialmedia.InvalidPostException;
 
+import java.io.Serializable;
+
 /**
  * this is a sub class, extended from the posts
  * class. It is used to identify certain posts
@@ -11,5 +13,5 @@ import socialmedia.InvalidPostException;
  * @author Wiktor Wiejak
  * @version 1.8
  */
-public interface MiniComment {
+public interface MiniComment extends Serializable {
 }

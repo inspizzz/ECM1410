@@ -1,5 +1,7 @@
 package socialmedia.Posts.interfaces;
 
+import java.io.Serializable;
+
 /**
  * this is a sub class, extended from the posts
  * class. It is used to identify certain posts
@@ -9,5 +11,5 @@ package socialmedia.Posts.interfaces;
  * @author Wiktor Wiejak
  * @version 1.7
  */
-public interface MiniEndorsement {
+public interface MiniEndorsement extends Serializable {
 }

@@ -5,6 +5,7 @@ import socialmedia.Posts.Comment;
 import socialmedia.Posts.Endorsement;
 import socialmedia.Posts.Post;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -17,7 +18,7 @@ import java.util.HashMap;
  * @author Wiktor Wiejak
  * @version 5.3
  */
-public interface MiniPost {
+public interface MiniPost extends Serializable {
 
     /**
      * get the comments that this post is associated to in hashmap format

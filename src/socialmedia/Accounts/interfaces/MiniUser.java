@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author Wiktor Wiejak
  * @version 2.9
  */
-public interface MiniUser {
+public interface MiniUser extends Serializable {
     /**
      * get the id of the user
      *
