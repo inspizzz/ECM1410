@@ -27,6 +27,9 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
     public Map<Integer, Post> posts = new HashMap<Integer, Post>();
 
 
+    public static void main(String[] args) {
+        System.out.println("this works");
+    }
     @Override
     public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
 
@@ -490,14 +493,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
     }
 
     @Override
-    public int getMostEndorsedPost() throws NoPostsRegisteredException {
-
-        // avoid performing this task when there are no posts registered
-        if (posts.size() == 0) {
-
-            // throw exception
-            throw new NoPostsRegisteredException("this action may not be performed as there are no posts registered");
-        }
+    public int getMostEndorsedPost()  {
 
         // instantiate variables to keep track of post id and number of endorsements
         int currentPostId = -1;
@@ -520,14 +516,7 @@ public class SocialMedia implements SocialMediaPlatform, Serializable {
     }
 
     @Override
-    public int getMostEndorsedAccount() throws NoAccountsRegisteredException {
-
-        // avoid performing this task when there are no accounts registered
-        if (accounts.size() == 0) {
-
-            // throw error
-            throw new NoAccountsRegisteredException("this action may not be performed as there are no accounts registered");
-        }
+    public int getMostEndorsedAccount() {
 
         // keep track of account and endorsements
         int total;

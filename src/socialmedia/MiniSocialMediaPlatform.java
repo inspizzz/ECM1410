@@ -8,7 +8,7 @@ import java.io.Serializable;
  * implementing this interface should initialise the MiniSocialMediaPlatform as
  * an empty platform with no initial accounts nor posts within it. For Solo
  * submissions ONLY.
- * 
+ *
  * @author Diogo Pacheco
  * @version 1.0
  *
@@ -22,13 +22,13 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 * <p>
 	 * The state of this SocialMediaPlatform must be be unchanged if any exceptions
 	 * are thrown.
-	 * 
+	 *
 	 * @param handle account's handle.
 	 * @throws IllegalHandleException if the handle already exists in the platform.
 	 * @throws InvalidHandleException if the new handle is empty, has more than 30
 	 *                                characters, or has white spaces.
 	 * @return the ID of the created account.
-	 * 
+	 *
 	 */
 	int createAccount(String handle) throws IllegalHandleException, InvalidHandleException;
 
@@ -39,7 +39,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 * <p>
 	 * The state of this SocialMediaPlatform must be be unchanged if any exceptions
 	 * are thrown.
-	 * 
+	 *
 	 * @param id ID of the account.
 	 * @throws AccountIDNotRecognisedException if the ID does not match to any
 	 *                                         account in the system.
@@ -51,7 +51,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 * <p>
 	 * The state of this SocialMediaPlatform must be be unchanged if any exceptions
 	 * are thrown.
-	 * 
+	 *
 	 * @param oldHandle account's old handle.
 	 * @param newHandle account's new handle.
 	 * @throws HandleNotRecognisedException if the old handle does not match to any
@@ -67,7 +67,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	/**
 	 * The method creates a formatted string summarising the stats of the account
 	 * identified by the given handle. The template should be:
-	 * 
+	 *
 	 * <pre>
 	 * ID: [account ID]
 	 * Handle: [account handle]
@@ -75,7 +75,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 * Post count: [total number of posts, including endorsements and replies]
 	 * Endorse count: [sum of endorsements received by each post of this account]
 	 * </pre>
-	 * 
+	 *
 	 * @param handle handle to identify the account.
 	 * @return the account formatted summary.
 	 * @throws HandleNotRecognisedException if the handle does not match to any
@@ -93,7 +93,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 * <p>
 	 * The state of this SocialMediaPlatform must be be unchanged if any exceptions
 	 * are thrown.
-	 * 
+	 *
 	 * @param handle  handle to identify the account.
 	 * @param message post message.
 	 * @throws HandleNotRecognisedException if the handle does not match to any
@@ -113,7 +113,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 * <p>
 	 * The state of this SocialMediaPlatform must be be unchanged if any exceptions
 	 * are thrown.
-	 * 
+	 *
 	 * @param handle of the account endorsing a post.
 	 * @param id     of the post being endorsed.
 	 * @return the sequential ID of the created post.
@@ -138,7 +138,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 * <p>
 	 * The state of this SocialMediaPlatform must be be unchanged if any exceptions
 	 * are thrown.
-	 * 
+	 *
 	 * @param handle  of the account commenting a post.
 	 * @param id      of the post being commented.
 	 * @param message the comment post message.
@@ -172,7 +172,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 * <p>
 	 * The state of this SocialMediaPlatform must be be unchanged if any exceptions
 	 * are thrown.
-	 * 
+	 *
 	 * @param id ID of post to be removed.
 	 * @throws PostIDNotRecognisedException if the ID does not match to any post in
 	 *                                      the system.
@@ -182,14 +182,14 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	/**
 	 * The method generates a formated string containing the details of a single
 	 * post. The format is as follows:
-	 * 
+	 *
 	 * <pre>
 	 * ID: [post ID]
 	 * Account: [account handle]
 	 * No. endorsements: [number of endorsements received by the post] | No. comments: [number of comments received by the post]
 	 * [post message]
 	 * </pre>
-	 * 
+	 *
 	 * @param id of the post to be shown.
 	 * @return a formatted string containing post's details.
 	 * @throws PostIDNotRecognisedException if the ID does not match to any post in
@@ -200,16 +200,16 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	/**
 	 * The method builds a StringBuilder showing the details of the current post and
 	 * all its children posts. The format is as follows (you can use tabs or spaces to represent indentation):
-	 * 
+	 *
 	 * <pre>
 	 * {@link #showIndividualPost(int) showIndividualPost(id)}
 	 * |
 	 * [for reply: replies to the post sorted by ID]
 	 * |  > {@link #showIndividualPost(int) showIndividualPost(reply)}
 	 * </pre>
-	 * 
+	 *
 	 * See an example:
-	 * 
+	 *
 	 * <pre>
 	 * ID: 1
 	 * Account: user1
@@ -234,7 +234,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 *     Account: user3
 	 *     No. endorsements: 4 | No. comments: 0
 	 *     Can't you do better than this?
-	 * 
+	 *
 	 * | > ID: 7
 	 *     Account: user5
 	 *     No. endorsements: 0 | No. comments: 1
@@ -245,10 +245,10 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 *         No. endorsements: 0 | No. comments: 0
 	 *         This is the example!
 	 * </pre>
-	 * 
+	 *
 	 * Continuing with the example, if the method is called for post ID=5
 	 * ({@code showIndividualPost(5)}), the return would be:
-	 * 
+	 *
 	 * <pre>
 	 * ID: 5
 	 * Account: user1
@@ -260,7 +260,7 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	 *     No. endorsements: 0 | No. comments: 0 
 	 *     prove it
 	 * </pre>
-	 * 
+	 *
 	 * @param id of the post to be shown.
 	 * @return a formatted StringBuilder containing the details of the post and its
 	 *         children.
@@ -280,18 +280,18 @@ public interface MiniSocialMediaPlatform extends Serializable {
 	/**
 	 * This method identifies and returns the post with the most number of
 	 * endorsements, a.k.a. the most popular post.
-	 * 
+	 *
 	 * @return the ID of the most popular post.
 	 */
-	int getMostEndorsedPost() throws NoPostsRegisteredException;
+	int getMostEndorsedPost();
 
 	/**
 	 * This method identifies and returns the account with the most number of
 	 * endorsements, a.k.a. the most popular account.
-	 * 
+	 *
 	 * @return the ID of the most popular account.
 	 */
-	int getMostEndorsedAccount() throws NoAccountsRegisteredException;
+	int getMostEndorsedAccount();
 
 	// End Analytics-related methods ****************************************
 

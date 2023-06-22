@@ -245,11 +245,9 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "AccountIDNotRecognizedException thrown incorrectly";
 
 		} catch (HandleNotRecognisedException | InvalidPostException | PostIDNotRecognisedException |
-				 NotActionablePostException | IOException | ClassNotFoundException | NoPostsRegisteredException |
-				 NoAccountsRegisteredException e) {
+				 NotActionablePostException | IOException | ClassNotFoundException e) {
 			System.out.println(e);
 			throw new RuntimeException(e);
-
 		}
 
 
