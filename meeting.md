@@ -1,22 +1,17 @@
+## code references
+- commit version
+```  
+git checkout 8a2606dff3ae77f29f0639443a98af407d3bd086  
+```  
+- [NoAccountsRegisteredException](src/socialmedia/NoAccountsRegisteredException.java)
+- [NoPostsRegisteredException](src/socialmedia/NoPostsRegisteredException.java)
 
-## key project points
-[remove account function contains AccountIDNoteRecognisedException 96](src/socialmedia/SocialMedia.java) removeAccount
-[remove account function contains HandleNotRecognisedException 111](src/socialmedia/SocialMedia.java) removeAccount
-[the AccountIDNoteRecognisedException file](src/socialmedia/AccountIDNotRecognisedException.java) AccountIDNoteRecognisedException
-[the HandleNotRecognisedException file](src/socialmedia/HandleNotRecognisedException.java) HandleNotRecognisedException
-
-## in the case of 96 (AccountIDNoteRecognisedException)
-- when function removeAccount is called with an ID that does not exist inside of the object
-- line 106 get called with an id that does not exist
-- line 106 throws null pointer exception that is not handled
-- I've created a custom exception that handles that
-
-## in the case of 111 (HandleNotRecognisedException)
-- when function removeAccount is called with a handle that does not exist inside of the object
-- line 121 get called with a handle that does not exist
-- line 121 throws null pointer exception that is not handled
-
-## to get back to updated version of the project without these changes
-$ git checkout wiktors
-
-
+## reason
+- [getMostEndorsedPost:493](src/socialmedia/SocialMedia.java)
+- [getMostEndorsedAccount:523](src/socialmedia/SocialMedia.java)
+- when calling these functions if there are no posts or accounts respectively then the  
+  client is returned with -1 in the real world the front end would automatically request  
+  to get that user however there is no user with id -1 meaning that it would throw an error,  
+  I specifically did this to ensure this situation would not happen. or the program will try  
+  to convert the account id -1 into an account handle which also does not exist, either way  
+  an error is thrown later down the line.
